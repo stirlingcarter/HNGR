@@ -1,7 +1,25 @@
 # HNGR
 # A platform to eliminate food waste by connecting volunteers to those with extra food.
 
-This platform will have functionality based on the following user stories: 
+## This platform focuses on 4 groups:
+
+### Food Distribution Centers, or FDC's: 
+-These are organizations that have registered to accept pickups. 
+-They will not need incentives to join because the value is intrinsic.
+
+### Donors: 
+-These are organizations or individuals who have too much food (e.g. catered event surplus, etc.)
+-One time donors will be incentivized by the fact that someone will come take their extra food off their hands, lifting a task from their busy schedule, as well as the charity of the decision. 
+-Restaurants and regular donors will be incentivized by a certification outside their restaurant, similar to energy star certification for energy efficiency. 
+
+### Volunteers: 
+-These are individuals who are willing to pick up food within certain timeframes / radii and bring the food to FDC's. 
+-They will be incentivized by a free meal, and a competitive program (see outdoor nation) that will especially encourage orgs like churches and schools to participate. 
+
+### Food Insecure Individuals: 
+-The application will also provide information and resources for those in need.
+
+## This platform will have functionality based on the following user stories: 
 
 As a food donor, I want to be able to post a pickup request, so that volunteers are notified to come bring my extra food to a shelter. 
 
