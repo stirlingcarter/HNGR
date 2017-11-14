@@ -5,7 +5,7 @@ This platform will have functionality based on the following user stories:
 
 As a food donor, I want to be able to post a pickup request, so that volunteers are notified to come bring my extra food to a shelter. 
 
-As a FDC manager, I want to be able to view incoming deliveries, so that I can manage time more efficiently. 
+As a FDC (food distribution center) manager, I want to be able to view incoming deliveries, so that I can manage time more efficiently. 
 
 As a FDC manager, I want to be able to set my hours and location on the app, so that donors know if my FDC is available for drop off. 
 
