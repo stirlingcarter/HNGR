@@ -16,10 +16,27 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
       <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+
+
+      <script>
+         require('../node_modules/material-ui.js')
+      </script>
+
       <script type="text/jsx">
+        import React from 'react';
+        import FlatButton from 'material-ui/lib/flat-button';
+
+      const RaisedButtonExampleSimple = () => (
+          <div>
+            <RaisedButton label="Default" />
+            <RaisedButton label="Primary" primary={true} />
+            <FlatButton label="Secondary" secondary={true} />
+            <FlatButton label="Disabled" disabled={true} />
+          </div>
+        );      
 
 
-var realPython = React.createClass({
+   var realPython = React.createClass({
     render: function() {
       return (<h2>Welcome to HNGR, where food doesn't go to waste!</h2>);
     }
