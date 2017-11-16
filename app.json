@@ -1,6 +1,7 @@
 {
   "expo": {
     "sdkVersion": "22.0.0",
-    "name": "HNGR"
+    "name": "HNGR",
+    "entryPoint": "./src/client/"
   }
 }
