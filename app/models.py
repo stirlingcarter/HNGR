@@ -1,9 +1,9 @@
 from app import db
 
-class Bucketlist(db.Model):
-    """This class represents the bucketlist table."""
+class FoodDistributionCenter(db.Model):
+    """This class represents the FDC table."""
 
-    __tablename__ = 'distributioncenters'
+    __tablename__ = 'fooddistributioncenters'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
@@ -22,11 +22,11 @@ class Bucketlist(db.Model):
 
     @staticmethod
     def get_all():
-        return Bucketlist.query.all()
+        return FoodDistributionCenter.query.all()
 
     def delete(self):
         db.session.delete(self)
         db.session.commit()
 
     def __repr__(self):
-        return "<Bucketlist: {}>".format(self.name)
+        return "<Food Distribution Center: {}>".format(self.name)
