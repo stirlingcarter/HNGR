@@ -1,5 +1,4 @@
 from flask import request, jsonify, abort, Flask
-from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 
 # local import
@@ -10,6 +9,7 @@ db = SQLAlchemy()
 
 def create_app(config_name):
     from app.models import FoodDistributionCenter
+    from app.schemas import FDCSchema
 
     app = Flask(__name__)
     app.config.from_object(app_config[config_name])
@@ -17,35 +17,35 @@ def create_app(config_name):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 
+    fdc_schema = FDCSchema()
+    fdcs_schema = FDCSchema(many=True)
+
     @app.route('/fdcs/', methods=['POST', 'GET'])
     def fdcs():
         if request.method == "POST":
-            name = str(request.data.get('name', ''))
-            if name:
-                fdc = FoodDistributionCenter(name=name)
+            json_data = request.get_json()
+            if not json_data:
+                return jsonify({'message': 'No input data provided'}), 400
+            
+            data, errors = fdc_schema.load(json_data)
+            if errors:
+                return jsonify(errors), 422
+
+            name, address = data['name'], data['address']
+
+            if name and address:
+                fdc = FoodDistributionCenter(name=name, address=address)
                 fdc.save()
-                response = jsonify({
-                    'id': fdc.id,
-                    'name': fdc.name,
-                    'date_created': fdc.date_created,
-                    'date_modified': fdc.date_modified
-                })
+                result = fdc_schema.dump(FoodDistributionCenter.query.get(fdc.id))
+                response = jsonify({'message': 'Created new FDC',
+                                    'fdc': result.data})
                 response.status_code = 201
                 return response
         else:
             # GET
             fdcs = FoodDistributionCenter.get_all()
-            results = []
-
-            for fdc in fdcs:
-                obj = {
-                    'id': fdc.id,
-                    'name': fdc.name,
-                    'date_created': fdc.date_created,
-                    'date_modified': fdc.date_modified
-                }
-                results.append(obj)
-            response = jsonify(results)
+            results = fdcs_schema.dump(fdcs)
+            response = jsonify({'fdcs': results.data})
             response.status_code = 200
             return response
 

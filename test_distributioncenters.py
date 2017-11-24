@@ -2,15 +2,16 @@ import unittest
 import os
 import json
 from app import create_app, db
+from app.models import FoodDistributionCenter
 
 class DistributionCenterTestCase(unittest.TestCase):
-    """This class represents the bucketlist test case"""
+    """This class represents the FDC test case"""
 
     def setUp(self):
         """Define test variables and initialize app."""
         self.app = create_app(config_name="testing")
         self.client = self.app.test_client
-        self.fdc = {'name': 'Nashville Food Project'}
+        self.fdc = {'name': 'Nashville Food Project', 'address': '5417 Thackeray Drive'}
 
         # binds the app to the current context
         with self.app.app_context():
@@ -18,13 +19,13 @@ class DistributionCenterTestCase(unittest.TestCase):
             db.create_all()
 
     def test_fdc_creation(self):
-        """Test API can create a DC (POST request)"""
+        """Test API can create a FDC (POST request)"""
         res = self.client().post('/fdcs/', data=self.fdc)
         self.assertEqual(res.status_code, 201)
         self.assertIn('Nashville Food Project', str(res.data))
 
     def test_api_can_get_all_fdc(self):
-        """Test API can get a DC (GET request)."""
+        """Test API can get a FDC (GET request)."""
         res = self.client().post('/fdcs/', data=self.fdc)
         self.assertEqual(res.status_code, 201)
         res = self.client().get('/fdcs/')
@@ -32,7 +33,7 @@ class DistributionCenterTestCase(unittest.TestCase):
         self.assertIn('Nashville Food Project', str(res.data))
 
     def test_api_can_get_fdc_by_id(self):
-        """Test API can get a single DC by using it's id."""
+        """Test API can get a single FDC by using it's id."""
         rv = self.client().post('/fdcs/', data=self.fdc)
         self.assertEqual(rv.status_code, 201)
         result_in_json = json.loads(rv.data.decode('utf-8').replace("'", "\""))

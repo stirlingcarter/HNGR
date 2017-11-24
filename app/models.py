@@ -1,3 +1,4 @@
+import datetime
 from app import db
 
 class FoodDistributionCenter(db.Model):
@@ -7,14 +8,18 @@ class FoodDistributionCenter(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
+    opening_time = db.Column(db.Time, default=datetime.time(hour=8))
+    closing_time = db.Column(db.Time, default=datetime.time(hour=17))
+    address = db.Column(db.String(255))
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
     date_modified = db.Column(
         db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
 
-    def __init__(self, name):
+    def __init__(self, name, address):
         """initialize with name."""
         self.name = name
+        self.address = address
 
     def save(self):
         db.session.add(self)
@@ -29,4 +34,4 @@ class FoodDistributionCenter(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return "<Food Distribution Center: {}>".format(self.name)
+        return "<Food Distribution Center: {} \n Address: {1}>".format(self.name, self.address)
