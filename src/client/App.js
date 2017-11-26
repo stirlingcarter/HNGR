@@ -1,45 +1,52 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
-export default class App extends React.Component {
-    _donorButton() {
-        Alert.alert('Pressed donor button');
-    }
-    _volButton() {
-        Alert.alert('Pressed volunteer button');
-    }
-    _fdcButton() {
-        Alert.alert('Pressed FDC button');
-    }
-    _hungryButton() {
-        Alert.alert('Pressed hungry button');
-    }
+import LoginScreen from './components/login';
+
+export class HomeScreen extends React.Component {
+
+    static navigationOptions = {
+        title: 'Home'
+    };
 
     render() {
+        const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
                 <Text>Shake your phone to open the developer menu.</Text>
 
                 <View style={styles.button}>
                     <Button
-                        onPress={this._donorButton}
+                        onPress={() => navigate('Login', { type: 'Donor'})}
                         title="I am a donor"
                     />
                     <Button
-                        onPress={this._volButton}
+                        onPress={() => navigate('Login', { type: 'Volunteer'})}
                         title="I am a volunteer"
                     />
                     <Button
-                        onPress={this._fdcButton}
+                        onPress={() => navigate('Login', { type: 'FDC'})}
                         title="I am an FDC"
                     />
                     <Button
-                        onPress={this._hungryButton}
-                        title="I am hunry"
+                        onPress={() => navigate('Login', { type: 'Hungry'})}
+                        title="I am hungry"
                     />
                 </View>
             </View>
         );
+    }
+}
+
+const HngrApp = StackNavigator({
+    Home:   { screen: HomeScreen },
+    Login:  { screen: LoginScreen },
+});
+
+export default class App extends React.Component {
+    render() {
+        return <HngrApp />;
     }
 }
 
