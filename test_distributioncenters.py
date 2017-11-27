@@ -1,7 +1,8 @@
 import unittest
 import os
 import json
-from app import create_app, db
+import instance
+from app import app, db
 from app.models import FoodDistributionCenter
 
 class DistributionCenterTestCase(unittest.TestCase):
@@ -9,7 +10,8 @@ class DistributionCenterTestCase(unittest.TestCase):
 
     def setUp(self):
         """Define test variables and initialize app."""
-        self.app = create_app(config_name="testing")
+        self.app = app
+        self.app.config.from_object(instance.config.TestingConfig)
         self.client = self.app.test_client
         self.fdc = {'name': 'Nashville Food Project', 'address': '5417 Thackeray Drive'}
         self.headers = {'Content-Type' : 'application/json'}

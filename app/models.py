@@ -1,5 +1,5 @@
 import datetime
-from app import db
+from app import db, bcrypt
 
 class FoodDistributionCenter(db.Model):
     """This class represents the FDC table."""
