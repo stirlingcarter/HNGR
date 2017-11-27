@@ -12,6 +12,7 @@ class DistributionCenterTestCase(unittest.TestCase):
         self.app = create_app(config_name="testing")
         self.client = self.app.test_client
         self.fdc = {'name': 'Nashville Food Project', 'address': '5417 Thackeray Drive'}
+        self.headers = {'Content-Type' : 'application/json'}
 
         # binds the app to the current context
         with self.app.app_context():
@@ -20,13 +21,13 @@ class DistributionCenterTestCase(unittest.TestCase):
 
     def test_fdc_creation(self):
         """Test API can create a FDC (POST request)"""
-        res = self.client().post('/fdcs/', data=self.fdc)
+        res = self.client().post('/fdcs/', data=json.dumps(self.fdc), headers=self.headers)
         self.assertEqual(res.status_code, 201)
         self.assertIn('Nashville Food Project', str(res.data))
 
     def test_api_can_get_all_fdc(self):
         """Test API can get a FDC (GET request)."""
-        res = self.client().post('/fdcs/', data=self.fdc)
+        res = self.client().post('/fdcs/', data=json.dumps(self.fdc), headers=self.headers)
         self.assertEqual(res.status_code, 201)
         res = self.client().get('/fdcs/')
         self.assertEqual(res.status_code, 200)
@@ -34,7 +35,7 @@ class DistributionCenterTestCase(unittest.TestCase):
 
     def test_api_can_get_fdc_by_id(self):
         """Test API can get a single FDC by using it's id."""
-        rv = self.client().post('/fdcs/', data=self.fdc)
+        rv = self.client().post('/fdcs/', data=json.dumps(self.fdc), headers=self.headers)
         self.assertEqual(rv.status_code, 201)
         result_in_json = json.loads(rv.data.decode('utf-8').replace("'", "\""))
         result = self.client().get(

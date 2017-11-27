@@ -1,5 +1,6 @@
 from flask import request, jsonify, abort, Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask.ext.bcrypt import Bcrypt
 
 # local import
 from instance.config import app_config
@@ -52,38 +53,44 @@ def create_app(config_name):
     @app.route('/fdcs/<int:id>', methods=['GET', 'PUT', 'DELETE'])
     def fdc_manipulation(id, **kwargs):
      # retrieve a FDC using it's ID
-        fdc = FoodDistributionCenter.query.filter_by(id=id).first()
-        if not fdc:
-            # Raise an HTTPException with a 404 not found status code
-            abort(404)
+        try:
+            fdc = FoodDistributionCenter.query.get(id)
+        except IntegrityError:
+            return jsonify({"message": "FDC could not be found."}), 400
 
         if request.method == 'DELETE':
             fdc.delete()
             return {
-            "message": "Food Distribution Center {} deleted successfully".format(fdc.id) 
+            "message": "Food Distribution Center {} deleted successfully".format(fdc.name) 
          }, 200
 
         elif request.method == 'PUT':
-            name = str(request.data.get('name', ''))
-            fdc.name = name
+            json_data = request.get_json()
+            if not json_data:
+                return jsonify({'message': 'No input data provided'}), 400
+            
+            data, errors = fdc_schema.load(json_data)
+            if errors:
+                return jsonify(errors), 422
+
+            name, address = data['name'], data['address']
+
+            if name:
+                fdc.name = name
+            if address:
+                fdc.address = address
+
             fdc.save()
-            response = jsonify({
-                'id': fdc.id,
-                'name': fdc.name,
-                'date_created': fdc.date_created,
-                'date_modified': fdc.date_modified
-            })
-            response.status_code = 200
+            result = fdc_schema.dump(FoodDistributionCenter.query.get(fdc.id))
+            response = jsonify({'message': 'Edited FDC',
+                                'fdc': result.data})
+            response.status_code = 201
             return response
         else:
             # GET
-            response = jsonify({
-                'id': fdc.id,
-                'name': fdc.name,
-                'date_created': fdc.date_created,
-                'date_modified': fdc.date_modified
-            })
-            response.status_code = 200
+            result = fdc_schema.dump(FoodDistributionCenter.query.get(fdc.id))
+            response = jsonify({'fdc': result.data})
+            response.status_code = 201
             return response
 
     return app
