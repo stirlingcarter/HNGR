@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView, TextInput} from 'react-native';
+import RegisterScreen from './register';
 
 export default class LoginScreen extends React.Component {
     static navigationOptions = {
@@ -32,7 +33,10 @@ export default class LoginScreen extends React.Component {
                 </View>
 
                 <View style={styles.container}>
-                    <Text style={styles.plainText}>Don't have an account? Click here</Text>
+                    <Text
+                    style={styles.plainText}
+                    onPress={() => navigate('Register', { type: params.type})}>Don't have an account? Click here</Text>
+
                 </View>
             </ScrollView>
         );
