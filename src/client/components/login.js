@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView, TextInput} from 'react-native';
-import RegisterScreen from './register';
 
 export default class LoginScreen extends React.Component {
     static navigationOptions = {
@@ -29,6 +28,14 @@ export default class LoginScreen extends React.Component {
                     <Text style={styles.label}>Password:</Text>
                     <TextInput
                         style={styles.input} onChangeText={(password) => this.setState({password})}
+                        secureTextEntry={true}
+                    />
+                </View>
+
+                <View style={styles.container}>
+                    <Button
+                        style={styles.button}
+                        title="Sign In"
                     />
                 </View>
 
@@ -47,6 +54,7 @@ const styles = StyleSheet.create({
     scroll: {
         backgroundColor: '#fff',
         padding: 30,
+        flex: 1,
         flexDirection: 'column'
     },
     container: {
@@ -64,5 +72,9 @@ const styles = StyleSheet.create({
     input: {
         height: 60,
         fontSize: 30,
+        backgroundColor: '#DCDCDC'
+    },
+    button: {
+
     }
 });
