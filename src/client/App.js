@@ -1,40 +1,49 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Button } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import LoginScreen from './components/login';
 
 export class HomeScreen extends React.Component {
-
     static navigationOptions = {
         title: 'Home'
     };
 
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         const { navigate } = this.props.navigation;
         return (
-            <View style={styles.container}>
-                <Text>Shake your phone to open the developer menu.</Text>
+            <ScrollView style={styles.scroll}>
+                <View style={styles.container}>
+                    <Text style={styles.title}>HNGR</Text>
+                </View>
 
-                <View style={styles.button}>
+                <View style={styles.buttons}>
                     <Button
+                        style={styles.button}
                         onPress={() => navigate('Login', { type: 'Donor'})}
                         title="I am a donor"
                     />
                     <Button
+                        style={styles.button}
                         onPress={() => navigate('Login', { type: 'Volunteer'})}
                         title="I am a volunteer"
                     />
                     <Button
+                        style={styles.button}
                         onPress={() => navigate('Login', { type: 'FDC'})}
                         title="I am an FDC"
                     />
                     <Button
+                        style={styles.button}
                         onPress={() => navigate('Login', { type: 'Hungry'})}
                         title="I am hungry"
                     />
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -51,10 +60,23 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    scroll: {
+        backgroundColor: '#fff',
+        padding: 30,
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    container: {
+        marginBottom: 20
+    },
+    title: {
+        fontSize: 50,
+        fontWeight: 'bold'
+    },
+    buttons: {
+        justifyContent: 'center'
+    },
+    button: {
+        marginBottom: 10
+    }
 });
