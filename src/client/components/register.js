@@ -51,7 +51,5 @@ export default class RegisterScreen extends React.Component {
                     style={styles.input} onChangeText={(location) => this.setState({location})}
                 />
             </View>
-
-
   }
 }

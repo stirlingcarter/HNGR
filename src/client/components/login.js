@@ -1,7 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView, TextInput} from 'react-native';
+import { StackNavigator } from 'react-navigation';
+import RegisterScreen from './register';
 
-export default class LoginScreen extends React.Component {
+export class LoginScreen extends React.Component {
     static navigationOptions = {
         title: 'Login'
     };
@@ -12,7 +14,9 @@ export default class LoginScreen extends React.Component {
     }
 
     render() {
+        const { navigate } = this.props.navigation;
         const { params } = this.props.navigation.state;
+
         return (
             <ScrollView style={styles.scroll}>
                 <Text style={styles.plainText}>{params.type} Login</Text>
@@ -49,6 +53,18 @@ export default class LoginScreen extends React.Component {
         );
     }
 }
+
+const LoginScreenNav = StackNavigator({
+  Login: {screen: LoginScreen},
+  Register: {screen: RegisterScreen},
+});
+
+export default class App extends React.Component {
+    render() {
+        return <LoginScreenNav />;
+    }
+}
+
 
 const styles = StyleSheet.create({
     scroll: {
