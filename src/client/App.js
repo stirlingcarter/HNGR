@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     scroll: {
         backgroundColor: '#fff',
         padding: 30,
+        flex: 1,
         flexDirection: 'column',
         alignItems: 'center'
     },
@@ -71,7 +72,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 50,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginBottom: 80
     },
     buttons: {
         justifyContent: 'center'
