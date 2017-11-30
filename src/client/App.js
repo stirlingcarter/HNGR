@@ -18,7 +18,8 @@ export class HomeScreen extends React.Component {
         return (
             <ScrollView style={styles.scroll}>
                 <View style={styles.container}>
-                    <Text style={styles.title}>HNGR</Text>
+                    <Text style={styles.title}>HNGR </Text>
+                    <img src="pics/cookie.png" style="float:left;"></img>
                 </View>
 
                 <View style={styles.buttons}>
