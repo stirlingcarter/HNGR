@@ -1,5 +1,5 @@
 import os
-from flask import request, jsonify, abort, Flask
+from flask import request, jsonify, abort, Flask, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
@@ -97,19 +97,44 @@ def fdc_manipulation(id, **kwargs):
         response.status_code = 201
         return response
 
-    @app.route('/users/', methods=['POST', 'GET'])
-    def users():
-        if request.method == "POST":
-            json_data = request.get_json()
-            if not json_data:
-                return jsonify({'message': 'No input data provided'}), 400
-            
-            data, errors = user_schema.load(json_data)
-            if errors:
-                return jsonify(errors), 422
+@app.route('/users/register', methods=['POST', 'GET'])
+def users():
+    if request.method == "POST":
+        json_data = request.get_json()
+        if not json_data:
+            return jsonify({'message': 'No input data provided'}), 400
+        
+        data, errors = user_schema.load(json_data)
+        if errors:
+            return jsonify(errors), 422
 
-            username, email, password, first_name, last_name, role = data['username'], data['email'], data['password'], data['first_name'], data['last_name'], data['role']
+        username, email, password, first_name, last_name, role = data['username'], data['email'], data['password'], data['first_name'], data['last_name'], data['role']
 
-            if username and email and password and first_name and last_name and role:
-                user = User(username=username, email=email, password=password, first_name=first_name, last_name=last_name, role=role)
-                user.save()
+        if username and email and password and first_name and last_name and role:
+            oldUser = User.query.filter_by(email=email).first()
+            if not oldUser:
+                try:
+                    user = User(username=username, email=email, password=password, first_name=first_name, last_name=last_name, role=role)
+                    user.save()
+
+                    #Generate JWT
+                    auth_token = user.encode_auth_token(user.id)
+                    responseObject = {
+                        'status': 'success',
+                        'message': 'Successfully registered.',
+                        'auth_token': auth_token.decode()
+                    }
+
+                    return jsonify(responseObject), 201
+                except Exception as e:
+                    responseObject = {
+                        'status': 'fail',
+                        'message': 'Some error occurred. Please try again.'
+                    }
+                    return jsonify(responseObject), 401
+            else:
+                responseObject = {
+                    'status': 'fail', 
+                    'message': 'User already exists'
+                }
+                return jsonify(responseObject), 202
