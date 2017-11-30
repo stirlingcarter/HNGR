@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, ScrollView, Button } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import LoginScreen from './components/login';
+import RegisterScreen from './components/register';
 
 export class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -24,22 +25,22 @@ export class HomeScreen extends React.Component {
                 <View style={styles.buttons}>
                     <Button
                         style={styles.button}
-                        onPress={() => navigate('Login', { type: 'Donor'})}
+                        onPress={() => navigate('Login', { type: 'Donor', navigation: navigate })}
                         title="I am a donor"
                     />
                     <Button
                         style={styles.button}
-                        onPress={() => navigate('Login', { type: 'Volunteer'})}
+                        onPress={() => navigate('Login', { type: 'Volunteer', navigation: navigate })}
                         title="I am a volunteer"
                     />
                     <Button
                         style={styles.button}
-                        onPress={() => navigate('Login', { type: 'FDC'})}
+                        onPress={() => navigate('Login', { type: 'FDC', navigation: navigate })}
                         title="I am an FDC"
                     />
                     <Button
                         style={styles.button}
-                        onPress={() => navigate('Login', { type: 'Hungry'})}
+                        onPress={() => navigate('Login', { type: 'Hungry', navigation: navigate })}
                         title="I am hungry"
                     />
                 </View>
@@ -51,6 +52,7 @@ export class HomeScreen extends React.Component {
 const HngrApp = StackNavigator({
     Home:   { screen: HomeScreen },
     Login:  { screen: LoginScreen },
+    Register: { screen: RegisterScreen },
 });
 
 export default class App extends React.Component {
