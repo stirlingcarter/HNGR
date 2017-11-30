@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, TextInput} from 'react-native';
+import { Button, StyleSheet, View, Text, ScrollView, TextInput} from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import RegisterScreen from './register';
 
@@ -14,8 +14,9 @@ export class LoginScreen extends React.Component {
     }
 
     render() {
-        const { navigate } = this.props.navigation;
         const { params } = this.props.navigation.state;
+        const { navigate } = params.navigate;
+
 
         return (
             <ScrollView style={styles.scroll}>
