@@ -5,6 +5,7 @@ class Config(object):
     DEBUG = False
     CSRF_ENABLED = True
     SECRET = os.getenv('SECRET')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'my_secret')
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     BCRYPT_LOG_ROUNDS = 13
 

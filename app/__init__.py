@@ -17,11 +17,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 bcrypt = Bcrypt(app)
 
-from app.models import FoodDistributionCenter
-from app.schemas import FDCSchema
+from app.models import FoodDistributionCenter, User
+from app.schemas import FDCSchema, UserSchema
 
 fdc_schema = FDCSchema()
 fdcs_schema = FDCSchema(many=True)
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
 
 @app.route('/fdcs/', methods=['POST', 'GET'])
 def fdcs():
@@ -94,3 +96,20 @@ def fdc_manipulation(id, **kwargs):
         response = jsonify({'fdc': result.data})
         response.status_code = 201
         return response
+
+    @app.route('/users/', methods=['POST', 'GET'])
+    def users():
+        if request.method == "POST":
+            json_data = request.get_json()
+            if not json_data:
+                return jsonify({'message': 'No input data provided'}), 400
+            
+            data, errors = user_schema.load(json_data)
+            if errors:
+                return jsonify(errors), 422
+
+            username, email, password, first_name, last_name, role = data['username'], data['email'], data['password'], data['first_name'], data['last_name'], data['role']
+
+            if username and email and password and first_name and last_name and role:
+                user = User(username=username, email=email, password=password, first_name=first_name, last_name=last_name, role=role)
+                user.save()
