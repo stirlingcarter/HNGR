@@ -17,7 +17,6 @@ export class LoginScreen extends React.Component {
         const { params } = this.props.navigation.state;
         const { navigate } = params.navigate;
 
-
         return (
             <ScrollView style={styles.scroll}>
                 <Text style={styles.plainText}>{params.type} Login</Text>
