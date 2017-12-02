@@ -1,21 +1,17 @@
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView, Button } from 'react-native';
-import { StackNavigator } from 'react-navigation';
 
-import LoginScreen from './components/login';
-import RegisterScreen from './components/register';
-
-export class HomeScreen extends React.Component {
-    static navigationOptions = {
-        title: 'Home'
-    };
-
+export default class HomeScreen extends React.Component {
     constructor(props) {
         super(props);
+        this.onSelect = this.onSelect.bind(this);
     }
 
+    onSelect = (type) => {
+        this.props.navigation.navigate('Login', {...type});
+    };
+
     render() {
-        const { navigate } = this.props.navigation;
         return (
             <ScrollView style={styles.scroll}>
                 <View style={styles.container}>
@@ -25,39 +21,27 @@ export class HomeScreen extends React.Component {
                 <View style={styles.buttons}>
                     <Button
                         style={styles.button}
-                        onPress={() => navigate('Login', { type: 'Donor', navigation: navigate })}
+                        onPress={() => this.onSelect('Donor')}
                         title="I am a donor"
                     />
                     <Button
                         style={styles.button}
-                        onPress={() => navigate('Login', { type: 'Volunteer', navigation: navigate })}
+                        onPress={() => this.onSelect('Volunteer')}
                         title="I am a volunteer"
                     />
                     <Button
                         style={styles.button}
-                        onPress={() => navigate('Login', { type: 'FDC', navigation: navigate })}
+                        onPress={() => this.onSelect('FDC')}
                         title="I am an FDC"
                     />
                     <Button
                         style={styles.button}
-                        onPress={() => navigate('Login', { type: 'Hungry', navigation: navigate })}
-                        title="I am hungry"
+                        onPress={() => this.onSelect('FII')}
+                        title="I am a Food Insecure Individual"
                     />
                 </View>
             </ScrollView>
         );
-    }
-}
-
-const HngrApp = StackNavigator({
-    Home:   { screen: HomeScreen },
-    Login:  { screen: LoginScreen },
-    Register: { screen: RegisterScreen },
-});
-
-export default class App extends React.Component {
-    render() {
-        return <HngrApp />;
     }
 }
 
