@@ -1,42 +1,33 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, TextInput} from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { StyleSheet, View, Text, ScrollView} from 'react-native';
 
-export class PickupScreen extends React.Component {
-    static navigationOptions = {
-        title: 'Pickup'
-    };
-
+export default class PickupScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = { pickups: [] };
     }
 
     render() {
-        const { navigate } = this.props.navigation;
-        const { params } = this.props.navigation.state;
-
         return (
             <ScrollView style={styles.scroll}>
-                <Text style={styles.plainText}>{params.type} Pickup</Text>
-
-
+                <Text style={styles.plainText}>Pickup</Text>
             </ScrollView>
         );
     }
 }
 
-const PickupScreenNav = StackNavigator({
-
-});
-
-export default class App extends React.Component {
-    render() {
-        return <PickupScreenNav />;
-    }
-}
-
-
 const styles = StyleSheet.create({
-
+    scroll: {
+        backgroundColor: '#fff',
+        padding: 30,
+        flex: 1,
+        flexDirection: 'column'
+    },
+    container: {
+        marginBottom: 20
+    },
+    plainText: {
+        fontSize: 15,
+        marginBottom: 15
+    }
 });

@@ -1,10 +1,27 @@
 import React from 'react';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 
-import HomeScreen from '../components/home'
-import LoginScreen from '../components/login';
-import RegisterScreen from '../components/register';
+import HomeScreen       from '../components/home'
+import LoginScreen      from '../components/login';
+import RegisterScreen   from '../components/register';
+import PickupScreen     from '../components/pickup';
+import ResourceScreen   from '../components/resources';
 
+
+export const Tabs = TabNavigator({
+    Pickup: {
+        screen: PickupScreen,
+        navigationOptions: {
+            tabBarLabel: 'Main'
+        },
+    },
+    Resources: {
+        screen: ResourceScreen,
+        navigationOptions: {
+            tabBarLabel: 'Resources'
+        },
+    },
+});
 
 export const Main = StackNavigator({
     Home: {
@@ -24,5 +41,8 @@ export const Main = StackNavigator({
         navigationOptions: {
             title: 'Register',
         }
+    },
+    Pickup: {
+        screen: Tabs
     }
 });
