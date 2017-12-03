@@ -4,7 +4,12 @@ import { StyleSheet, View, Text, ScrollView, Button, TextInput} from 'react-nati
 export default class LoginScreen extends React.Component {
     constructor(props) {
         super(props);
+        this.onRegister = this.onRegister.bind(this);
         this.state = { user: '', password: ''};
+    }
+
+    onRegister() {
+        this.props.navigation.navigate('Register');
     }
 
     render() {
@@ -36,10 +41,8 @@ export default class LoginScreen extends React.Component {
                 </View>
 
                 <View style={styles.container}>
-                    <Text
-                    style={styles.plainText}
-                    onPress={() => navigate('Register', { type: params.type})}>Don't have an account? Click here</Text>
-
+                    <Text style={styles.plainText}>Don't have an account? </Text>
+                    <Text style={styles.plainText} onPress={() => this.onRegister()}>Click here</Text>
                 </View>
             </ScrollView>
         );

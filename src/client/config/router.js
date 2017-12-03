@@ -19,5 +19,10 @@ export const Main = StackNavigator({
             title: 'Login',
         },
     },
-
+    Register: {
+        screen: RegisterScreen,
+        navigationOptions: {
+            title: 'Register',
+        }
+    }
 });

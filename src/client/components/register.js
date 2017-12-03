@@ -1,22 +1,21 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, TextInput} from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Button, TextInput} from 'react-native';
 
 export default class RegisterScreen extends React.Component {
-    static navigationOptions = {
-        title: 'Register'
-    };
-
     constructor(props) {
         super(props);
+        this.onSubmit = this.onSubmit.bind(this);
         this.state = {user: '', password: '', name: '', location: ''};
     }
 
-    render() {
-        const { params } = this.props.navigation.state;
+    onSubmit() {
 
+    }
+
+    render() {
         return (
             <ScrollView style={styles.scroll}>
-                <Text style={styles.plainText}>{params.type} Register </Text>
+                <Text style={styles.plainText}>Registration</Text>
 
                 <View style={styles.container}>
                     <Text style={styles.label}>Username:</Text>
@@ -35,7 +34,7 @@ export default class RegisterScreen extends React.Component {
                 <View style={styles.container}>
                      <Text style={styles.label}>Verify Password:</Text>
                      <TextInput
-                         //style={styles.input} onChangeText={(password) => this.setState({password})}
+                         style={styles.input} //onChangeText={(password) => this.setState({password})}
                      />
                 </View>
 
@@ -56,3 +55,32 @@ export default class RegisterScreen extends React.Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    scroll: {
+        backgroundColor: '#fff',
+        padding: 30,
+        flex: 1,
+        flexDirection: 'column'
+    },
+    container: {
+        marginBottom: 20
+    },
+    plainText: {
+        fontSize: 15,
+        marginBottom: 15
+    },
+    label: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10
+    },
+    input: {
+        height: 60,
+        fontSize: 30,
+        backgroundColor: '#DCDCDC'
+    },
+    button: {
+
+    }
+});
