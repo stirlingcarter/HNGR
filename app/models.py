@@ -24,7 +24,7 @@ class User(db.Model):
         self.first_name = first_name
         self.last_name = last_name
         self.role = role
-        self.password = self.password = bcrypt.generate_password_hash(
+        self.password = bcrypt.generate_password_hash(
             password, app.config.get('BCRYPT_LOG_ROUNDS')
         ).decode()
         self.available = False
