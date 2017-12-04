@@ -1,5 +1,5 @@
 import os
-from flask import request, jsonify, abort, Flask, make_response
+from flask import request, jsonify, abort, Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
@@ -17,7 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 bcrypt = Bcrypt(app)
 
-from app.models import FoodDistributionCenter, User
+from app.models import FoodDistributionCenter, User, BlacklistToken
 from app.schemas import FDCSchema, UserSchema
 
 fdc_schema = FDCSchema()
@@ -179,6 +179,45 @@ def login():
                 'message': 'Try again'
             }
             return jsonify(response_object), 500
+
+@app.route('/users/logout', methods=['POST'])
+def logout():
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+        auth_token = auth_header.split(" ")[1]
+    else:
+        auth_token = ''
+    if auth_token:
+        response = User.decode_auth_token(auth_token)
+        if not isinstance(response, str):
+            #Mark token as blacklisted
+            blacklist_token = BlacklistToken(token=auth_token)
+            try:
+                blacklist_token.save()
+                response_object = {
+                    'status': 'success',
+                    'message': 'Successfully logged out.'
+                }
+                return jsonify(response_object), 200
+            except Exception as e:
+                response_object = {
+                    'status': 'fail',
+                    'message': e
+                }
+                return jsonify(response_object), 500
+        else:
+            response_object = {
+                'status': 'fail',
+                'message': resp
+            }
+            return jsonify(response_object), 401
+    else:
+        response_object = {
+            'status': 'fail', 
+            'message': 'Please return a valid auth token.'
+        }
+        return jsonify(response_object), 403
+
 
 @app.route('/users/<string:username>', methods=['GET', 'PUT'])
 def user(username, **kwargs):

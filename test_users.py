@@ -138,6 +138,48 @@ class DistributionCenterTestCase(unittest.TestCase):
         self.assertTrue(data['data']['last_name'] == 'fei')
         self.assertTrue(data['data']['role'] == 'volunteer')
 
+    def test_logout(self):
+        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer')
+        schema = UserSchema()
+
+        #Register
+        register_response = self.client.post('/users/',
+            data = schema.dumps(user).data,
+            content_type = 'application/json'
+        )
+
+        registration_data = json.loads(register_response.data.decode())
+        self.assertTrue(registration_data['status'] == 'success')
+        self.assertTrue(
+            registration_data['message'] == 'Successfully registered.'
+        )
+
+        #Login
+        login_response = self.client.post('/users/login',
+            data = schema.dumps(user).data,
+            content_type = 'application/json'
+        )
+
+        login_data = json.loads(login_response.data.decode())
+        self.assertTrue(login_data['status'] == 'success')
+        self.assertTrue(login_data['message'] == 'Successfully logged in.')
+        self.assertTrue(login_data['auth_token'])
+        self.assertTrue(login_response.content_type == 'application/json')
+        self.assertEqual(login_response.status_code, 200)
+
+        #Logout
+        logout_response = self.client.post(
+            '/users/logout',
+            headers=dict(
+                Authorization='Bearer ' + login_data['auth_token']
+            ))
+        
+        logout_data = json.loads(logout_response.data.decode())
+        self.assertTrue(logout_data['status'] == 'success')
+        self.assertTrue(logout_data['message'] == 'Successfully logged out.')
+        self.assertTrue(logout_response.content_type == 'application/json')
+        self.assertTrue(logout_response.status_code, 200)
+
     def tearDown(self):
         """teardown all initialized variables."""
         with self.app.app_context():
