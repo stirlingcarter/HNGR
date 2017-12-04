@@ -150,9 +150,9 @@ def login():
     if errors:
         return jsonify(errors), 422
 
-    username, email, password, first_name, last_name, role = data['username'], data['email'], data['password'], data['first_name'], data['last_name'], data['role']
+    username, password = data['username'], data['password']
 
-    if username and email and password and first_name and last_name and role:
+    if username and password:
         try:
             user = User.query.filter_by(username=username).first()
 
