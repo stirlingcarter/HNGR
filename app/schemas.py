@@ -19,5 +19,5 @@ class UserSchema(Schema):
     last_name = fields.Str()
     password = fields.Str()
     registered_on = fields.DateTime()
-    role = fields.Str(validate=lambda n: n == 'fdcAdmin' or n == 'volunteer')
+    role = fields.Str(validate=lambda n: n == 'fdcAdmin' or n == 'volunteer' or n == 'donor')
     fdc = fields.Nested(FDCSchema)

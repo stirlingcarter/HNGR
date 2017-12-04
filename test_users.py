@@ -97,6 +97,47 @@ class DistributionCenterTestCase(unittest.TestCase):
         self.assertTrue(login_response.content_type == 'application/json')
         self.assertEqual(login_response.status_code, 200)
 
+    def test_user_login_fail(self):
+        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer')
+        schema = UserSchema()
+
+        login_response = self.client.post('/users/login',
+            data = schema.dumps(user).data,
+            content_type = 'application/json'
+        )
+        login_data = json.loads(login_response.data.decode())
+        self.assertTrue(login_data['status'] == 'fail')
+        self.assertTrue(login_data['message'] == 'User does not exist.')
+        self.assertTrue(login_response.content_type == 'application/json')
+        self.assertEqual(login_response.status_code, 404)
+
+    def test_user_get_info(self):
+        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer')
+        schema = UserSchema()
+
+        register_response = self.client.post('/users/',
+            data = schema.dumps(user).data,
+            content_type = 'application/json'
+        )
+
+        register_data = json.loads(register_response.data.decode())
+
+        get_response = self.client.get(
+            '/users/' + user.username,
+            headers=dict(
+                Authorization='Bearer ' + register_data['auth_token']
+            )
+        )
+
+        data = json.loads(get_response.data.decode())
+        self.assertTrue(data['status'] == 'success')
+        self.assertTrue(data['data'] is not None)
+        self.assertTrue(data['data']['username'] == 'charlie')
+        self.assertTrue(data['data']['email'] == 'test@test.com')
+        self.assertTrue(data['data']['first_name'] == 'charlie')
+        self.assertTrue(data['data']['last_name'] == 'fei')
+        self.assertTrue(data['data']['role'] == 'volunteer')
+
     def tearDown(self):
         """teardown all initialized variables."""
         with self.app.app_context():
