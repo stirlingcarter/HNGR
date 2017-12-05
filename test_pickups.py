@@ -54,7 +54,18 @@ class PickupTestCase(unittest.TestCase):
         self.assertEqual(login_response.status_code, 200)
 
         pickup_schema = PickupSchema()
-        pickup = Pickup()
+        pickup = Pickup(description="My Pickup")
 
         creation_response = self.client.post('/users/charlie/pickups/',
-            data = pickup_schema.dumps())
+            data = pickup_schema.dumps(pickup).data,
+            content_type = 'application/json'
+        )
+
+        creation_data = json.loads(creation_response.data.decode())
+        self.assertTrue(creation_data['status'] == 'success')
+        self.assertTrue(creation_data['message'] == 'Successfully created pickup.')
+        self.assertTrue(creation_response.content_type == 'application/json')
+        self.assertEqual(creation_response.status_code, 200)
+
+if __name__ == '__main__':
+    unittest.main()

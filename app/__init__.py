@@ -151,13 +151,12 @@ def login():
     if errors:
         return jsonify(errors), 422
 
-    print(data)
     username, password = data['username'], data['password']
 
     if username and password:
         try:
             user = User.query.filter_by(username=username).first()
-
+            print(data)
             if user and bcrypt.check_password_hash(user.password, json_data.get('password')):
                 auth_token = user.encode_auth_token(user.id)
                 if auth_token:
