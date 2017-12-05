@@ -36,11 +36,14 @@ export const Main = StackNavigator({
             title: 'Login',
         },
     },
+    Resources: {
+        screen: ResourceScreen,
+        navigationOptions: {
+            title: 'Login',
+        },
+    },
     Register: {
         screen: RegisterScreen,
-        navigationOptions: {
-            title: 'Register',
-        }
     },
     Tabs: {
         screen: Tabs
