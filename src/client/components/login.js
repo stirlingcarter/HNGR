@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, Button, TextInput} from 'react-native';
+import { StyleSheet, View, Text, Alert} from 'react-native';
+import { Button, FormLabel, FormInput} from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 
 export default class LoginScreen extends React.Component {
     constructor(props) {
@@ -12,6 +14,14 @@ export default class LoginScreen extends React.Component {
     }
 
     onLogin() {
+        // reset for Navigation state
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({ routeName: 'Tabs' })
+            ]
+        });
+
         var path = this.props.navigation.state.type = "FDC" ? "fdcs" : "users";
         fetch(`http://18.216.237.239:5000/${path}/login`, {
         method: 'POST',
@@ -32,7 +42,7 @@ export default class LoginScreen extends React.Component {
           this.setState({auth_token: res.token});
           alert(`Success! You may now access protected content.`);
           // Redirect
-          this.props.navigation.navigate('Pickup');
+            this.props.navigation.dispatch(resetAction);
         }
       })
       .catch((e) => {
@@ -43,66 +53,39 @@ export default class LoginScreen extends React.Component {
     render() {
         const { params } = this.props.navigation.state;
         return (
-            <ScrollView style={styles.scroll}>
+            <View style={styles.container}>
                 <Text style={styles.plainText}>{params.type} Login</Text>
 
-                <View style={styles.container}>
-                    <Text style={styles.label}>Username:</Text>
-                    <TextInput
-                        style={styles.input} onChangeText={(user) => this.setState({user})}
-                    />
-                </View>
+                <FormLabel>Username</FormLabel>
+                <FormInput onChangeText={(username) => this.setState({username})}/>
 
-                <View style={styles.container}>
-                    <Text style={styles.label}>Password:</Text>
-                    <TextInput
-                        style={styles.input} onChangeText={(password) => this.setState({password})}
-                        secureTextEntry={true}
-                    />
-                </View>
+                <FormLabel>Username</FormLabel>
+                <FormInput onChangeText={(password) => this.setState({password})}
+                           secureTextEntry={true}/>
 
-                <View style={styles.container}>
-                    <Button
-                        style={styles.button}
-                        title="Sign In"
-                        onPress={() => this.onLogin()}
-                    />
-                </View>
+                <Button
+                    title="Sign In"
+                    onPress={() => this.onLogin()}
+                />
 
-                <View style={styles.container}>
+                <View>
                     <Text style={styles.plainText}>Don't have an account? </Text>
                     <Text style={styles.plainText} onPress={() => this.onRegister(params.type)}>Click here</Text>
                 </View>
-            </ScrollView>
+            </View>
         );
     }
 }
-
 const styles = StyleSheet.create({
-    scroll: {
+    container: {
         backgroundColor: '#fff',
         padding: 30,
         flex: 1,
-        flexDirection: 'column'
-    },
-    container: {
+        flexDirection: 'column',
         marginBottom: 20
     },
     plainText: {
         fontSize: 15,
         marginBottom: 15
-    },
-    label: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 10
-    },
-    input: {
-        height: 60,
-        fontSize: 30,
-        backgroundColor: '#DCDCDC'
-    },
-    button: {
-
     }
 });
