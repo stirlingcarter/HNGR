@@ -106,7 +106,7 @@ def users():
         
         data, errors = user_schema.load(json_data)
         if errors:
-            return jsonify(errors), 422
+            return jsonify({'error': errors}), 422
 
         username, email, password, first_name, last_name, role = data['username'], data['email'], data['password'], data['first_name'], data['last_name'], data['role']
 
