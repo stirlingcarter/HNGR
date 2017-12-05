@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Alert} from 'react-native';
 import { Button, FormLabel, FormInput} from 'react-native-elements';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default class RegisterScreen extends React.Component {
     constructor(props) {
@@ -49,6 +50,13 @@ export default class RegisterScreen extends React.Component {
     render() {
         const { params } = this.props.navigation.state;
         return (
+          //allows screen to scroll when keyboard blocks text input
+          <KeyboardAwareScrollView
+            style={{ backgroundColor: '#4c69a5' }}
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            contentContainerStyle={styles.container}
+            scrollEnabled={false}>
+
             <View style={styles.container}>
                 <Text style={styles.plainText}>{params.type} Registration</Text>
 
@@ -74,6 +82,7 @@ export default class RegisterScreen extends React.Component {
                     onPress={() => this.onRegister()}
                 />
             </View>
+          </KeyboardAwareScrollView>
         );
     }
 }
