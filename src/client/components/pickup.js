@@ -9,10 +9,30 @@ export default class PickupScreen extends React.Component {
     constructor(props) {
         super(props);
         this.pickupReq = this.pickupReq.bind(this);
+        this.pickupView = this.pickupView().bind(this);
+        this.pickupAccept = this.pickupAccept().bind(this);
+        this.setInfo = this.setInfo().bind(this);
+        this.getDirections = this.getDirections().bind(this);
     }
 
     pickupReq(type) {
         this.props.navigation.navigate('Form',{type});
+    }
+
+    pickupView() {
+        this.props.navigation.navigate('Requests',{type});
+    }
+
+    pickupAccept() {
+
+    }
+
+    setInfo() {
+
+    }
+
+    getDirections() {
+
     }
 
     render() {
@@ -34,25 +54,25 @@ export default class PickupScreen extends React.Component {
                 <Button
                     style={styles.button}
                     title="View Pickup Requests"
-                    onPress={() => this.onRegister(params.type)}
+                    onPress={() => this.pickupView()}
                 />
 
                 <Button
                     style={styles.button}
                     title="Accept Pickup Requests"
-                    onPress={() => this.onRegister(params.type)}
+                    onPress={() => this.pickupAccept()}
                 />
 
                 <Button
                     style={styles.button}
                     title="Set Volunteer Info"
-                    onPress={() => this.onRegister(params.type)}
+                    onPress={() => this.setInfo()}
                 />
 
                 <Button
                     style={styles.button}
                     title="Goggle Map Directions"
-                    onPress={() => this.onRegister(params.type)}
+                    onPress={() => this.getDirections()}
                 />
 
             </View>
