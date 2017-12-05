@@ -1,15 +1,22 @@
 import React from 'react';
 import { StyleSheet, View, Text} from 'react-native';
 import { Button } from 'react-native-elements';
+import renderIf from './renderif';
+import fdcOptions from './fdc_pickup';
 
 
 export default class PickupScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { pickups: [] };
+        this.pickupReq = this.pickupReq.bind(this);
+    }
+
+    pickupReq(type) {
+
     }
 
     render() {
+        const { params } = this.props.navigation.state;
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>Pickup</Text>
@@ -19,30 +26,12 @@ export default class PickupScreen extends React.Component {
                 * */
                 <Button
                     title="Post Pickup Request"
-                    onPress={() => this.onRegister(params.type)}
+                    onPress={() => this.pickupReq(params.type)}
                 />
 
-                /* TODO: FDC MANAGER
-                * probably render in a list
-                * */
-                <Button
-                    title="View Incoming Deliveries"
-                    onPress={() => this.onRegister(params.type)}
-                />
-
-                /* TODO: FDC MANAGER
-                * attached to an incoming delivery item
-                * */
-                <Button
-                    title="Set Delivery Instructions"
-                    onPress={() => this.onRegister(params.type)}
-                />
-
-                /* TODO: FDC MANAGER */
-                <Button
-                    title="Set Hours and Locations"
-                    onPress={() => this.onRegister(params.type)}
-                />
+                {renderIf(params.type==='fdcAdmin',
+                    <fdcOptions />
+                )}
 
                 /* TODO: VOLUNTEER
                 * render in a list
@@ -91,6 +80,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 50,
         fontWeight: 'bold',
-        marginBottom: 80,
+        marginBottom: 50,
     },
 });

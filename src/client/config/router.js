@@ -6,7 +6,13 @@ import LoginScreen      from '../components/login';
 import RegisterScreen   from '../components/register';
 import PickupScreen     from '../components/pickup';
 import ResourceScreen   from '../components/resources';
+import fdcOptions       from '../components/fdc_pickup';
 
+export const PickupStack = StackNavigator({
+    FDC: {
+        screen: fdcOptions
+    }
+});
 
 export const Tabs = TabNavigator({
     Pickup: {

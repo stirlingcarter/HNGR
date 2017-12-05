@@ -18,7 +18,7 @@ export default class LoginScreen extends React.Component {
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
-                NavigationActions.navigate({ routeName: 'Tabs' })
+                NavigationActions.navigate({ routeName: 'Tabs' , params: {type: this.state.type}})
             ]
         });
 
@@ -51,6 +51,7 @@ export default class LoginScreen extends React.Component {
 
     render() {
         const { params } = this.props.navigation.state;
+        this.setState({type: params.type});
         return (
             <View style={styles.container}>
                 <Text style={styles.plainText}>Login</Text>
