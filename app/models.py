@@ -112,9 +112,8 @@ class Pickup(db.Model):
     available = db.Column(db.Boolean(), nullable=False)
     donor_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
 
-
     def __init__(self):
-        self.available = False
+        self.available = True
         self.registered_on = datetime.datetime.now()
 
     def save(self):
