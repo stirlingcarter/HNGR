@@ -13,14 +13,14 @@ export default class LoginScreen extends React.Component {
         this.props.navigation.navigate('Register', {type});
     }
 
-    onLogin() {
+    onLogin(type) {
         // reset for Navigation state
-        const resetAction = NavigationActions.reset({
-            index: 0,
-            actions: [
-                NavigationActions.navigate({ routeName: 'Tabs' , params: {type: this.state.type}})
-            ]
-        });
+        // const resetAction = NavigationActions.reset({
+        //     index: 0,
+        //     actions: [
+        //         NavigationActions.navigate({ routeName: 'Tabs', params: { type: this.props.navigation.state.type}})
+        //     ]
+        // });
 
         //let path = this.props.navigation.state.type = "fdcAdmin" ? "fdcs" : "users";
         fetch(`http://18.216.237.239:5000/users/login`, {
@@ -41,7 +41,8 @@ export default class LoginScreen extends React.Component {
           this.setState({auth_token: res.token});
           alert(`Success! You may now access protected content.`);
           // Redirect
-            this.props.navigation.dispatch(resetAction);
+          this.props.navigation.navigate('Tabs', {type});
+          //   this.props.navigation.dispatch(resetAction);
         }
       })
       .catch((e) => {
@@ -51,7 +52,6 @@ export default class LoginScreen extends React.Component {
 
     render() {
         const { params } = this.props.navigation.state;
-        this.setState({type: params.type});
         return (
             <View style={styles.container}>
                 <Text style={styles.plainText}>Login</Text>
@@ -66,7 +66,7 @@ export default class LoginScreen extends React.Component {
                 <Button
                     style={styles.button}
                     title="Sign In"
-                    onPress={() => this.onLogin()}
+                    onPress={() => this.onLogin(params.type)}
                 />
 
                 <View>
