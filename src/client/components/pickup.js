@@ -21,9 +21,6 @@ export default class PickupScreen extends React.Component {
             <View style={styles.container}>
                 <Text style={styles.title}>Pickup</Text>
 
-                /* TODO: DONOR
-                conditional render a form for submissions (instead of this button)
-                */
                 <Button
                     style={styles.button}
                     title="Post Pickup Request"
@@ -34,32 +31,24 @@ export default class PickupScreen extends React.Component {
                     <fdcOptions />
                 )}*/
 
-                /* TODO: VOLUNTEER
-                render in a list
-                */
                 <Button
                     style={styles.button}
                     title="View Pickup Requests"
                     onPress={() => this.onRegister(params.type)}
                 />
 
-                /* TODO: VOLUNTEER
-                attached to a pickup request item
-                */
                 <Button
                     style={styles.button}
                     title="Accept Pickup Requests"
                     onPress={() => this.onRegister(params.type)}
                 />
 
-                /* TODO: VOLUNTEER */
                 <Button
                     style={styles.button}
                     title="Set Volunteer Info"
                     onPress={() => this.onRegister(params.type)}
                 />
 
-                /* TODO: VOLUNTEER */
                 <Button
                     style={styles.button}
                     title="Goggle Map Directions"
