@@ -58,14 +58,25 @@ class PickupTestCase(unittest.TestCase):
 
         creation_response = self.client.post('/users/charlie/pickups/',
             data = pickup_schema.dumps(pickup).data,
+            headers=dict(
+                Authorization='Bearer ' + login_data['auth_token']
+            ),
             content_type = 'application/json'
         )
 
         creation_data = json.loads(creation_response.data.decode())
+        print(creation_data)
         self.assertTrue(creation_data['status'] == 'success')
         self.assertTrue(creation_data['message'] == 'Successfully created pickup.')
         self.assertTrue(creation_response.content_type == 'application/json')
         self.assertEqual(creation_response.status_code, 200)
+
+    def tearDown(self):
+        """teardown all initialized variables."""
+        with self.app.app_context():
+            # drop all tables
+            db.session.remove()
+            db.drop_all()
 
 if __name__ == '__main__':
     unittest.main()

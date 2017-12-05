@@ -9,7 +9,6 @@ class FDCSchema(Schema):
     address = fields.Str()
     date_created = fields.DateTime()
     date_modified = fields.DateTime()
-    admin_id = fields.Int()
 
 class UserSchema(Schema):
     id = fields.Int(dump_only=True)
@@ -27,4 +26,3 @@ class PickupSchema(Schema):
     description = fields.Str()
     registered_on = fields.DateTime()
     available = fields.Boolean()
-    donor_id = fields.Int()

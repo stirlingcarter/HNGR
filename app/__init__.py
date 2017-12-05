@@ -17,13 +17,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 bcrypt = Bcrypt(app)
 
-from app.models import FoodDistributionCenter, User, BlacklistToken
-from app.schemas import FDCSchema, UserSchema
+from app.models import FoodDistributionCenter, User, BlacklistToken, Pickup
+from app.schemas import FDCSchema, UserSchema, PickupSchema
 
 fdc_schema = FDCSchema()
 fdcs_schema = FDCSchema(many=True)
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
+pickup_schema = PickupSchema()
+pickups_schema = PickupSchema(many=True)
 
 @app.route('/fdcs/', methods=['POST', 'GET'])
 def fdcs():
@@ -156,7 +158,6 @@ def login():
     if username and password:
         try:
             user = User.query.filter_by(username=username).first()
-            print(data)
             if user and bcrypt.check_password_hash(user.password, json_data.get('password')):
                 auth_token = user.encode_auth_token(user.id)
                 if auth_token:
@@ -255,3 +256,63 @@ def user(username, **kwargs):
                 'message': 'Provide a valid auth token.'
             }
             return jsonify(response_object), 401
+
+@app.route('/users/<string:username>/pickups/', methods=['POST'])
+def create_pickup(username, **kwargs):
+    json_data = request.get_json()
+    if not json_data:
+            return jsonify({'message': 'No input data provided'}), 400
+
+    data, errors = pickup_schema.load(json_data)
+    if errors:
+        return jsonify(errors), 422
+    
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+        auth_token = auth_header.split(" ")[1]
+    else:
+        auth_token = ''
+    if auth_token:
+        response = User.decode_auth_token(auth_token)
+        if not isinstance(response, str):
+            user = User.query.filter_by(id=response).first()
+
+            #Check that user is correct
+            if username == user.username:
+                try:
+                    description = data['description']
+                    #Create new pickup in DB
+                    pickup = Pickup(description=description)
+                    user.pickups.append(pickup)
+                    pickup.save()
+                    db.session.commit()
+
+                    response_object = {
+                        'status': 'success',
+                        'message': 'Successfully created pickup.'
+                    }
+                    return jsonify(response_object), 200
+                except Exception as e:
+                    response_object = {
+                        'status': 'fail',
+                        'message': e
+                    }
+                    return jsonify(response_object), 500
+            else:
+                response_object = {
+                    'status': 'fail',
+                    'message': 'wrong user'
+                }
+                return jsonify(response_object), 401
+        else:
+            response_object = {
+                'status': 'fail', 
+                'message': response
+            }
+            return jsonify(response_object), 401    
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Provide a valid auth token.'
+        }
+        return jsonify(response_object), 401
