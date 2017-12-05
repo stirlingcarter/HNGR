@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text} from 'react-native';
 import { Button } from 'react-native-elements';
 import renderIf from './renderif';
-import fdcOptions from './fdc_pickup';
+// import fdcOptions from './fdc_pickup';
 
 
 export default class PickupScreen extends React.Component {
@@ -12,7 +12,7 @@ export default class PickupScreen extends React.Component {
     }
 
     pickupReq(type) {
-
+        this.props.navigation.navigate('Form',{type});
     }
 
     render() {
@@ -29,9 +29,9 @@ export default class PickupScreen extends React.Component {
                     onPress={() => this.pickupReq(params.type)}
                 />
 
-                {renderIf(params.type==='fdcAdmin',
+                /*{renderIf(params.type==='fdcAdmin',
                     <fdcOptions />
-                )}
+                )}*/
 
                 /* TODO: VOLUNTEER
                 * render in a list

@@ -6,13 +6,20 @@ import LoginScreen      from '../components/login';
 import RegisterScreen   from '../components/register';
 import PickupScreen     from '../components/pickup';
 import ResourceScreen   from '../components/resources';
-import fdcOptions       from '../components/fdc_pickup';
-
-export const PickupStack = StackNavigator({
-    FDC: {
-        screen: fdcOptions
-    }
-});
+import PickupForm       from '../components/pickup_form';
+// import fdcOptions       from '../components/fdc_pickup';
+//
+// export const PickupStack = StackNavigator({
+//     Form: {
+//         screen: PickupForm,
+//         navigationOptions: {
+//             title: 'Pickup Form',
+//         }
+//     },
+//     FDC: {
+//         screen: fdcOptions
+//     }
+// });
 
 export const Tabs = TabNavigator({
     Pickup: {
@@ -50,8 +57,17 @@ export const Main = StackNavigator({
     },
     Register: {
         screen: RegisterScreen,
+        navigationOptions: {
+            title: 'Register',
+        }
     },
     Tabs: {
         screen: Tabs
+    },
+    Form: {
+        screen: PickupForm,
+        navigationOptions: {
+            title: 'Pickup Form',
+        }
     }
 });

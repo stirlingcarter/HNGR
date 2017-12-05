@@ -36,7 +36,6 @@ export default class RegisterScreen extends React.Component {
           alert(res.error);
         } else {
           this.setState({auth_token: res.auth_token});
-          alert(res.message);
           alert(`Success! You may now log in.`);
           // Redirect
           // this.props.navigation.navigate('Login', {params.type});
