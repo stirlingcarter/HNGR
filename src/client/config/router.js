@@ -52,7 +52,7 @@ export const Main = StackNavigator({
     Resources: {
         screen: ResourceScreen,
         navigationOptions: {
-            title: 'Login',
+            title: 'Resources',
         },
     },
     Register: {

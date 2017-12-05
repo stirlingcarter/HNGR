@@ -39,7 +39,6 @@ export default class LoginScreen extends React.Component {
           alert(res.error);
         } else {
           this.setState({auth_token: res.token});
-          alert(`Success! You may now access protected content.`);
           // Redirect
           this.props.navigation.navigate('Tabs', {type});
           //   this.props.navigation.dispatch(resetAction);
@@ -54,14 +53,17 @@ export default class LoginScreen extends React.Component {
         const { params } = this.props.navigation.state;
         return (
             <View style={styles.container}>
-                <Text style={styles.plainText}>Login</Text>
+                <FormLabel labelStyle={styles.formLabel}>Username</FormLabel>
+                <FormInput containerStyle={styles.formContainer}
+                           inputStyle={styles.formInput}
+                           autoCorrect={false}
+                           onChangeText={(username) => this.setState({username})}/>
 
-                <FormLabel>Username</FormLabel>
-                <FormInput onChangeText={(username) => this.setState({username})}/>
-
-                <FormLabel>Password</FormLabel>
-                <FormInput onChangeText={(password) => this.setState({password})}
-                           secureTextEntry={true}/>
+                <FormLabel labelStyle={styles.formLabel}>Password</FormLabel>
+                <FormInput containerStyle={styles.formContainer}
+                           inputStyle={styles.formInput}
+                           secureTextEntry={true}
+                           onChangeText={(password) => this.setState({password})}/>
 
                 <Button
                     style={styles.button}
@@ -82,17 +84,26 @@ export default class LoginScreen extends React.Component {
 }
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: '#a0e7a0',
         padding: 30,
         flex: 1,
         flexDirection: 'column',
     },
     plainText: {
         fontSize: 15,
-        marginTop: 10,
+        marginTop: 70,
         marginBottom: 7
     },
     button: {
-      marginTop: 10
+      marginTop: 15
+    },
+    formLabel: {
+        color: 'black'
+    },
+    formContainer: {
+        backgroundColor: '#dbdbdb'
+    },
+    formInput: {
+        color: 'black'
     }
 });

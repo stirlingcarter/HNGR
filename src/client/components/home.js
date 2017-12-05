@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, Button } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import { Button } from 'react-native-elements';
 
 export default class HomeScreen extends React.Component {
     constructor(props) {
@@ -25,16 +26,19 @@ export default class HomeScreen extends React.Component {
                         title="I am a donor"
                     />
                     <Button
+                        small
                         style={styles.button}
                         onPress={() => this.onSelect('volunteer')}
                         title="I am a volunteer"
                     />
                     <Button
+                        small
                         style={styles.button}
                         onPress={() => this.onSelect('fdcAdmin')}
                         title="I am an FDC"
                     />
                     <Button
+                        small
                         style={styles.button}
                         onPress={() => this.props.navigation.navigate('Resources')}
                         title="I am hungry"
@@ -47,7 +51,7 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: '#a0e7a0',
         padding: 30,
         flex: 1,
         flexDirection: 'column',
@@ -56,12 +60,13 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 50,
         fontWeight: 'bold',
-        marginBottom: 80
+        marginBottom: 60
     },
     buttons: {
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     button: {
-        marginBottom: 10
+        marginTop: 15,
+        marginBottom: 15
     }
 });

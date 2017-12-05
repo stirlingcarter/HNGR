@@ -22,9 +22,10 @@ export default class PickupScreen extends React.Component {
                 <Text style={styles.title}>Pickup</Text>
 
                 /* TODO: DONOR
-                * conditional render a form for submissions (instead of this button)
-                * */
+                conditional render a form for submissions (instead of this button)
+                */
                 <Button
+                    style={styles.button}
                     title="Post Pickup Request"
                     onPress={() => this.pickupReq(params.type)}
                 />
@@ -34,29 +35,33 @@ export default class PickupScreen extends React.Component {
                 )}*/
 
                 /* TODO: VOLUNTEER
-                * render in a list
-                * */
+                render in a list
+                */
                 <Button
+                    style={styles.button}
                     title="View Pickup Requests"
                     onPress={() => this.onRegister(params.type)}
                 />
 
                 /* TODO: VOLUNTEER
-                * attached to a pickup request item
-                * */
+                attached to a pickup request item
+                */
                 <Button
+                    style={styles.button}
                     title="Accept Pickup Requests"
                     onPress={() => this.onRegister(params.type)}
                 />
 
                 /* TODO: VOLUNTEER */
                 <Button
-                    title="Set Availability, Location, Pickup Radius"
+                    style={styles.button}
+                    title="Set Volunteer Info"
                     onPress={() => this.onRegister(params.type)}
                 />
 
                 /* TODO: VOLUNTEER */
                 <Button
+                    style={styles.button}
                     title="Goggle Map Directions"
                     onPress={() => this.onRegister(params.type)}
                 />
@@ -68,7 +73,7 @@ export default class PickupScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: '#a0e7a0',
         padding: 30,
         flex: 1,
         flexDirection: 'column',
@@ -82,4 +87,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 50,
     },
+    button: {
+        marginTop: 15
+    }
 });

@@ -129,6 +129,8 @@ export default class ResourceScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+      backgroundColor: '#a0e7a0',
+      flexDirection: 'column',
    flex: 1,
    paddingTop: 22
 

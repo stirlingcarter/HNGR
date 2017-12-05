@@ -57,23 +57,33 @@ export default class RegisterScreen extends React.Component {
             scrollEnabled={false}>
 
             <View style={styles.container}>
-                <Text style={styles.plainText}>{params.type} Registration</Text>
+                <FormLabel labelStyle={styles.formLabel}>Username</FormLabel>
+                <FormInput containerStyle={styles.formContainer}
+                           inputStyle={styles.formInput}
+                           autoCorrect={false}
+                           onChangeText={(username) => this.setState({username})}/>
 
-                <FormLabel>Username</FormLabel>
-                <FormInput onChangeText={(username) => this.setState({username})}/>
+                <FormLabel labelStyle={styles.formLabel}>Password</FormLabel>
+                <FormInput containerStyle={styles.formContainer}
+                           inputStyle={styles.formInput}
+                           secureTextEntry={true}
+                           onChangeText={(password) => this.setState({password})}/>
 
-                <FormLabel>Password</FormLabel>
-                <FormInput onChangeText={(password) => this.setState({password})}
-                           secureTextEntry={true}/>
+                <FormLabel labelStyle={styles.formLabel}>Email</FormLabel>
+                <FormInput containerStyle={styles.formContainer}
+                           inputStyle={styles.formInput}
+                           autoCorrect={false}
+                           onChangeText={(email) => this.setState({email})}/>
 
-                <FormLabel>Email</FormLabel>
-                <FormInput onChangeText={(email) => this.setState({email})}/>
+                <FormLabel labelStyle={styles.formLabel}>First Name</FormLabel>
+                <FormInput containerStyle={styles.formContainer}
+                           inputStyle={styles.formInput}
+                           onChangeText={(first_name) => this.setState({first_name})}/>
 
-                <FormLabel>First Name</FormLabel>
-                <FormInput onChangeText={(first_name) => this.setState({first_name})}/>
-
-                <FormLabel>Last Name</FormLabel>
-                <FormInput onChangeText={(last_name) => this.setState({last_name})}/>
+                <FormLabel labelStyle={styles.formLabel}>Last Name</FormLabel>
+                <FormInput containerStyle={styles.formContainer}
+                           inputStyle={styles.formInput}
+                           onChangeText={(last_name) => this.setState({last_name})}/>
 
                 <Button
                     style={styles.button}
@@ -88,7 +98,7 @@ export default class RegisterScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: '#a0e7a0',
         padding: 30,
         flex: 1,
         flexDirection: 'column',
@@ -98,6 +108,16 @@ const styles = StyleSheet.create({
         marginBottom: 15
     },
     button: {
-      marginTop: 10
+        marginTop: 15
+    },
+    formLabel: {
+        color: 'black',
+        marginTop: 17
+    },
+    formContainer: {
+        backgroundColor: '#dbdbdb'
+    },
+    formInput: {
+        color: 'black'
     }
 });

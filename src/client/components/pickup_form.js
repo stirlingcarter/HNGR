@@ -26,14 +26,16 @@ export default class PickupForm extends React.Component {
                 <View style={styles.container}>
                     <Text style={styles.plainText}>Pickup Request</Text>
 
-                    <FormLabel>Name</FormLabel>
-                    <FormInput onChangeText={(username) => this.setState({username})}/>
+                    <FormLabel labelStyle={styles.formLabel}>Name</FormLabel>
+                    <FormInput containerStyle={styles.formContainer}
+                               inputStyle={styles.formInput}
+                               onChangeText={(username) => this.setState({name})}/>
 
-                    <FormLabel>First Name</FormLabel>
-                    <FormInput onChangeText={(first_name) => this.setState({first_name})}/>
+                    <FormLabel labelStyle={styles.formLabel}>Description</FormLabel>
+                    <FormInput containerStyle={styles.formContainer}
+                               inputStyle={styles.formInput}
+                               onChangeText={(first_name) => this.setState({description})}/>
 
-                    <FormLabel>Last Name</FormLabel>
-                    <FormInput onChangeText={(last_name) => this.setState({last_name})}/>
 
                     <Button
                         style={styles.button}
@@ -48,7 +50,7 @@ export default class PickupForm extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: '#a0e7a0',
         padding: 30,
         flex: 1,
         flexDirection: 'column',
@@ -58,6 +60,16 @@ const styles = StyleSheet.create({
         marginBottom: 15
     },
     button: {
-        marginTop: 10
+        marginTop: 15
+    },
+    formLabel: {
+        color: 'black',
+        marginTop: 17
+    },
+    formContainer: {
+        backgroundColor: '#dbdbdb'
+    },
+    formInput: {
+        color: 'black'
     }
 });
