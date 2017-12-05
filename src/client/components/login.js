@@ -85,11 +85,11 @@ const styles = StyleSheet.create({
         padding: 30,
         flex: 1,
         flexDirection: 'column',
-        marginBottom: 20
     },
     plainText: {
         fontSize: 15,
-        marginBottom: 15
+        marginTop: 10,
+        marginBottom: 7
     },
     button: {
       marginTop: 10

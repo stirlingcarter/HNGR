@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: 20
     },
     title: {
         fontSize: 50,

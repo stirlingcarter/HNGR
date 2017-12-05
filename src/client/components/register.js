@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
         padding: 30,
         flex: 1,
         flexDirection: 'column',
-        marginBottom: 20
     },
     plainText: {
         fontSize: 15,
