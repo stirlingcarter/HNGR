@@ -53,7 +53,7 @@ export default class LoginScreen extends React.Component {
         const { params } = this.props.navigation.state;
         return (
             <View style={styles.container}>
-                <Text style={styles.plainText}>{params.type} Login</Text>
+                <Text style={styles.plainText}>Login</Text>
 
                 <FormLabel>Username</FormLabel>
                 <FormInput onChangeText={(username) => this.setState({username})}/>
