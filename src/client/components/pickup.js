@@ -11,7 +11,7 @@ export default class PickupScreen extends React.Component {
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <Text style={styles.title}>Pickup</Text>
 
                 /* TODO: DONOR
