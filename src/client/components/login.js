@@ -22,15 +22,15 @@ export default class LoginScreen extends React.Component {
             ]
         });
 
-        var path = this.props.navigation.state.type = "FDC" ? "fdcs" : "users";
-        fetch(`http://18.216.237.239:5000/${path}/login`, {
+        //let path = this.props.navigation.state.type = "fdcAdmin" ? "fdcs" : "users";
+        fetch(`http://18.216.237.239:5000/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json'
         },
         body: JSON.stringify({
-          username: this.state.user,
+          username: this.state.username,
           password: this.state.password
         })
       })
