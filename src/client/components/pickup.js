@@ -9,18 +9,18 @@ export default class PickupScreen extends React.Component {
     constructor(props) {
         super(props);
         this.pickupReq = this.pickupReq.bind(this);
-        this.pickupView = this.pickupView().bind(this);
-        this.pickupAccept = this.pickupAccept().bind(this);
-        this.setInfo = this.setInfo().bind(this);
-        this.getDirections = this.getDirections().bind(this);
+        this.pickupView = this.pickupView.bind(this);
+        this.pickupAccept = this.pickupAccept.bind(this);
+        this.setInfo = this.setInfo.bind(this);
+        this.getDirections = this.getDirections.bind(this);
     }
 
     pickupReq(type) {
-        this.props.navigation.navigate('Form',{type});
+        this.props.navigation.navigate('PForm',{type});
     }
 
-    pickupView() {
-        this.props.navigation.navigate('Requests',{type});
+    pickupView(type) {
+        this.props.navigation.navigate('PView',{type});
     }
 
     pickupAccept() {
@@ -47,14 +47,10 @@ export default class PickupScreen extends React.Component {
                     onPress={() => this.pickupReq(params.type)}
                 />
 
-                /*{renderIf(params.type==='fdcAdmin',
-                    <fdcOptions />
-                )}*/
-
                 <Button
                     style={styles.button}
                     title="View Pickup Requests"
-                    onPress={() => this.pickupView()}
+                    onPress={() => this.pickupView(params.type)}
                 />
 
                 <Button

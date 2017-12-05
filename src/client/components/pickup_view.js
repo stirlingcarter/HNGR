@@ -3,7 +3,7 @@ import { StyleSheet, View, Text} from 'react-native';
 import { Button } from 'react-native-elements';
 
 
-export default class RequestScreen extends React.Component {
+export default class PickupView extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -12,7 +12,7 @@ export default class RequestScreen extends React.Component {
         const { params } = this.props.navigation.state;
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>Pickup Requests</Text>
+                <Text style={styles.plainText}>View Pickup</Text>
 
             </View>
         );
