@@ -14,56 +14,54 @@ export default class RegisterScreen extends React.Component {
 
     render() {
         return (
-            <ScrollView style={styles.scroll}>
+            <View style={styles.container}>
                 <Text style={styles.plainText}>Registration</Text>
 
-                <View style={styles.container}>
+                <View>
                     <Text style={styles.label}>Username:</Text>
                     <TextInput
                         style={styles.input} onChangeText={(user) => this.setState({user})}
                     />
                 </View>
 
-                <View style={styles.container}>
+                <View>
                     <Text style={styles.label}>Password:</Text>
                     <TextInput
                         style={styles.input} onChangeText={(password) => this.setState({password})}
                     />
                 </View>
 
-                <View style={styles.container}>
+                <View>
                      <Text style={styles.label}>Verify Password:</Text>
                      <TextInput
                          style={styles.input} //onChangeText={(password) => this.setState({password})}
                      />
                 </View>
 
-                <View style={styles.container}>
+                <View>
                     <Text style={styles.label}>Name of Company:</Text>
                     <TextInput
                         style={styles.input} onChangeText={(name) => this.setState({name})}
                     />
                 </View>
 
-                <View style={styles.container}>
+                <View>
                     <Text style={styles.label}>Location:</Text>
                     <TextInput
                         style={styles.input} onChangeText={(location) => this.setState({location})}
                     />
                 </View>
-            </ScrollView>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    scroll: {
+    container: {
         backgroundColor: '#fff',
         padding: 30,
         flex: 1,
-        flexDirection: 'column'
-    },
-    container: {
+        flexDirection: 'column',
         marginBottom: 20
     },
     plainText: {

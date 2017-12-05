@@ -13,8 +13,8 @@ export default class HomeScreen extends React.Component {
 
     render() {
         return (
-            <ScrollView style={styles.scroll}>
-                <View style={styles.container}>
+            <View style={styles.container}>
+                <View>
                     <Text style={styles.title}>HNGR</Text>
                 </View>
 
@@ -40,20 +40,18 @@ export default class HomeScreen extends React.Component {
                         title="I am a Food Insecure Individual"
                     />
                 </View>
-            </ScrollView>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    scroll: {
+    container: {
         backgroundColor: '#fff',
         padding: 30,
         flex: 1,
         flexDirection: 'column',
-        alignItems: 'center'
-    },
-    container: {
+        alignItems: 'center',
         marginBottom: 20
     },
     title: {

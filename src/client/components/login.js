@@ -1,11 +1,16 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, Button, TextInput} from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Alert} from 'react-native';
+import { Button, FormLabel, FormInput} from 'react-native-elements';
 
 export default class LoginScreen extends React.Component {
     constructor(props) {
         super(props);
+        this.onLogin = this.onLogin.bind(this);
         this.onRegister = this.onRegister.bind(this);
-        this.state = { user: '', password: ''};
+    }
+
+    onLogin() {
+        Alert.alert(this.state);
     }
 
     onRegister() {
@@ -15,65 +20,40 @@ export default class LoginScreen extends React.Component {
     render() {
         const { params } = this.props.navigation.state;
         return (
-            <ScrollView style={styles.scroll}>
+            <View style={styles.container}>
                 <Text style={styles.plainText}>{params.type} Login</Text>
 
-                <View style={styles.container}>
-                    <Text style={styles.label}>Username:</Text>
-                    <TextInput
-                        style={styles.input} onChangeText={(user) => this.setState({user})}
-                    />
-                </View>
+                <FormLabel>Username</FormLabel>
+                <FormInput onChangeText={(username) => this.setState({username})}/>
 
-                <View style={styles.container}>
-                    <Text style={styles.label}>Password:</Text>
-                    <TextInput
-                        style={styles.input} onChangeText={(password) => this.setState({password})}
-                        secureTextEntry={true}
-                    />
-                </View>
+                <FormLabel>Username</FormLabel>
+                <FormInput onChangeText={(password) => this.setState({password})}
+                            secureTextEntry={true}/>
 
-                <View style={styles.container}>
-                    <Button
-                        style={styles.button}
-                        title="Sign In"
-                    />
-                </View>
+                <Button
+                    title="Sign In"
+                    onPress={() => this.onLogin()}
+                />
 
-                <View style={styles.container}>
+                <View>
                     <Text style={styles.plainText}>Don't have an account? </Text>
                     <Text style={styles.plainText} onPress={() => this.onRegister()}>Click here</Text>
                 </View>
-            </ScrollView>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    scroll: {
+    container: {
         backgroundColor: '#fff',
         padding: 30,
         flex: 1,
-        flexDirection: 'column'
-    },
-    container: {
+        flexDirection: 'column',
         marginBottom: 20
     },
     plainText: {
         fontSize: 15,
         marginBottom: 15
-    },
-    label: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 10
-    },
-    input: {
-        height: 60,
-        fontSize: 30,
-        backgroundColor: '#DCDCDC'
-    },
-    button: {
-
     }
 });
