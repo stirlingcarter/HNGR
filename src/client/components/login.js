@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, Alert} from 'react-native';
+import { StyleSheet, View, Text,  Alert} from 'react-native';
 import { Button, FormLabel, FormInput} from 'react-native-elements';
 
 export default class LoginScreen extends React.Component {
@@ -13,8 +13,12 @@ export default class LoginScreen extends React.Component {
         Alert.alert(this.state);
     }
 
-    onRegister() {
-        this.props.navigation.navigate('Register');
+    onRegister(type) {
+        this.props.navigation.navigate('Register', {type});
+    }
+
+    test() {
+        this.props.navigation.navigate('Tabs');
     }
 
     render() {
@@ -37,7 +41,17 @@ export default class LoginScreen extends React.Component {
 
                 <View>
                     <Text style={styles.plainText}>Don't have an account? </Text>
-                    <Text style={styles.plainText} onPress={() => this.onRegister()}>Click here</Text>
+                    <Button
+                        title="Click Here"
+                        onPress={() => this.onRegister(params.type)}
+                    />
+                </View>
+
+                <View>
+                    <Button
+                        title="Tab test"
+                        onPress={() => this.test()}
+                    />
                 </View>
             </View>
         );

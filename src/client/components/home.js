@@ -8,7 +8,7 @@ export default class HomeScreen extends React.Component {
     }
 
     onSelect = (type) => {
-        this.props.navigation.navigate('Login', {...type});
+        this.props.navigation.navigate('Login', {type});
     };
 
     render() {

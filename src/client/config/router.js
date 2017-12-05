@@ -42,7 +42,7 @@ export const Main = StackNavigator({
             title: 'Register',
         }
     },
-    Pickup: {
+    Tabs: {
         screen: Tabs
     }
 });

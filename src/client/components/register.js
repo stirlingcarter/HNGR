@@ -1,56 +1,44 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, Button, TextInput} from 'react-native';
+import { StyleSheet, View, Text, Alert} from 'react-native';
+import { Button, FormLabel, FormInput} from 'react-native-elements';
 
 export default class RegisterScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.state = {user: '', password: '', name: '', location: ''};
+        this.onRegister = this.onRegister.bind(this);
     }
 
-    onSubmit() {
-
+    onRegister() {
+        Alert.alert(this.state);
     }
 
     render() {
+        const { params } = this.props.navigation.state;
         return (
             <View style={styles.container}>
-                <Text style={styles.plainText}>Registration</Text>
+                <Text style={styles.plainText}>{params.type} Registration</Text>
 
-                <View>
-                    <Text style={styles.label}>Username:</Text>
-                    <TextInput
-                        style={styles.input} onChangeText={(user) => this.setState({user})}
-                    />
-                </View>
+                <FormLabel>Username</FormLabel>
+                <FormInput onChangeText={(username) => this.setState({username})}/>
 
-                <View>
-                    <Text style={styles.label}>Password:</Text>
-                    <TextInput
-                        style={styles.input} onChangeText={(password) => this.setState({password})}
-                    />
-                </View>
+                <FormLabel>Password</FormLabel>
+                <FormInput onChangeText={(password) => this.setState({password})}
+                           secureTextEntry={true}/>
 
-                <View>
-                     <Text style={styles.label}>Verify Password:</Text>
-                     <TextInput
-                         style={styles.input} //onChangeText={(password) => this.setState({password})}
-                     />
-                </View>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormInput onChangeText={(password) => this.setState({password})}
+                           secureTextEntry={true}/>
 
-                <View>
-                    <Text style={styles.label}>Name of Company:</Text>
-                    <TextInput
-                        style={styles.input} onChangeText={(name) => this.setState({name})}
-                    />
-                </View>
+                <FormLabel>Company</FormLabel>
+                <FormInput onChangeText={(company) => this.setState({company})}/>
 
-                <View>
-                    <Text style={styles.label}>Location:</Text>
-                    <TextInput
-                        style={styles.input} onChangeText={(location) => this.setState({location})}
-                    />
-                </View>
+                <FormLabel>Location</FormLabel>
+                <FormInput onChangeText={(username) => this.setState({location})}/>
+
+                <Button
+                    title="Register"
+                    onPress={() => this.onRegister()}
+                />
             </View>
         );
     }
@@ -67,18 +55,5 @@ const styles = StyleSheet.create({
     plainText: {
         fontSize: 15,
         marginBottom: 15
-    },
-    label: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 10
-    },
-    input: {
-        height: 60,
-        fontSize: 30,
-        backgroundColor: '#DCDCDC'
-    },
-    button: {
-
     }
 });

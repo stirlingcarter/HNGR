@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView} from 'react-native';
+import { StyleSheet, View, Text} from 'react-native';
 
 export default class ResourceScreen extends React.Component {
     constructor(props) {
@@ -8,21 +8,19 @@ export default class ResourceScreen extends React.Component {
 
     render() {
         return (
-            <ScrollView style={styles.scroll}>
-                <Text style={styles.plainText}>{params.type} Resources</Text>
-            </ScrollView>
+            <View>
+                <Text style={styles.plainText}>Resources</Text>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    scroll: {
+    container: {
         backgroundColor: '#fff',
         padding: 30,
         flex: 1,
-        flexDirection: 'column'
-    },
-    container: {
+        flexDirection: 'column',
         marginBottom: 20
     },
     plainText: {
