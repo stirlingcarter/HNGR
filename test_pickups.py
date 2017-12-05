@@ -54,6 +54,7 @@ class PickupTestCase(unittest.TestCase):
         self.assertEqual(login_response.status_code, 200)
 
         pickup_schema = PickupSchema()
+        pickup = Pickup()
 
         creation_response = self.client.post('/users/charlie/pickups/',
-            data = schema.dumps())
+            data = pickup_schema.dumps())
