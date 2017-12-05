@@ -34,7 +34,6 @@ export default class LoginScreen extends React.Component {
           password: this.state.password
         })
       })
-      .then((response) => response.json())
       .then((res) => {
         if (res.error) {
           alert(res.error);
@@ -59,18 +58,22 @@ export default class LoginScreen extends React.Component {
                 <FormLabel>Username</FormLabel>
                 <FormInput onChangeText={(username) => this.setState({username})}/>
 
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormInput onChangeText={(password) => this.setState({password})}
                            secureTextEntry={true}/>
 
                 <Button
+                    style={styles.button}
                     title="Sign In"
                     onPress={() => this.onLogin()}
                 />
 
                 <View>
                     <Text style={styles.plainText}>Don't have an account? </Text>
-                    <Text style={styles.plainText} onPress={() => this.onRegister(params.type)}>Click here</Text>
+                    <Button
+                      title="Click Here"
+                      onPress={() => this.onRegister(params.type)}
+                    />
                 </View>
             </View>
         );
@@ -87,5 +90,8 @@ const styles = StyleSheet.create({
     plainText: {
         fontSize: 15,
         marginBottom: 15
+    },
+    button: {
+      marginTop: 10
     }
 });

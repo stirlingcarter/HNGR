@@ -21,17 +21,17 @@ export default class HomeScreen extends React.Component {
                 <View style={styles.buttons}>
                     <Button
                         style={styles.button}
-                        onPress={() => this.onSelect('Donor')}
+                        onPress={() => this.onSelect('donor')}
                         title="I am a donor"
                     />
                     <Button
                         style={styles.button}
-                        onPress={() => this.onSelect('Volunteer')}
+                        onPress={() => this.onSelect('volunteer')}
                         title="I am a volunteer"
                     />
                     <Button
                         style={styles.button}
-                        onPress={() => this.onSelect('FDC')}
+                        onPress={() => this.onSelect('fdcAdmin')}
                         title="I am an FDC"
                     />
                     <Button

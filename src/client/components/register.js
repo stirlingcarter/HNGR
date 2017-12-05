@@ -13,7 +13,7 @@ export default class RegisterScreen extends React.Component {
     }
 
     onRegister() {
-        var params = this.props.navigation.state;
+        const { params } = this.props.navigation.state;
         fetch(`http://18.216.237.239:5000/users/`, {
         method: 'POST',
         headers: {
@@ -21,9 +21,9 @@ export default class RegisterScreen extends React.Component {
           Accept: 'application/json'
         },
         body: JSON.stringify({
-          username: this.state.user,
-          email: this.state.email,
+          username: this.state.username,
           password: this.state.password,
+          email: this.state.email,
           first_name: this.state.first_name,
           last_name: this.state.last_name,
           role: params.type,
@@ -35,14 +35,14 @@ export default class RegisterScreen extends React.Component {
           alert(res.error);
         } else {
           this.setState({auth_token: res.auth_token});
+          alert(res.message);
           alert(`Success! You may now log in.`);
           // Redirect
-          this.props.navigation.navigate('Login', {params.type});
+          // this.props.navigation.navigate('Login', {params.type});
         }
       })
-      .catch((e) => {
-        console.log(e);
-        alert('There was an error logging in.');
+      .catch(() => {
+        alert('There was an error registering.');
       });
     }
 
@@ -69,6 +69,7 @@ export default class RegisterScreen extends React.Component {
                 <FormInput onChangeText={(last_name) => this.setState({last_name})}/>
 
                 <Button
+                    style={styles.button}
                     title="Register"
                     onPress={() => this.onRegister()}
                 />
@@ -88,5 +89,8 @@ const styles = StyleSheet.create({
     plainText: {
         fontSize: 15,
         marginBottom: 15
+    },
+    button: {
+      marginTop: 10
     }
 });
