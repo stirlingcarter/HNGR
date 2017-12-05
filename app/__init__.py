@@ -30,24 +30,66 @@ pickups_schema = PickupSchema(many=True)
 @app.route('/fdcs/', methods=['POST', 'GET'])
 def fdcs():
     if request.method == "POST":
+        #Register user
         json_data = request.get_json()
         if not json_data:
             return jsonify({'message': 'No input data provided'}), 400
         
+        #Check for errors when loading from FDC Schema
         data, errors = fdc_schema.load(json_data)
         if errors:
             return jsonify(errors), 422
 
-        name, address = data['name'], data['address']
+        #Ensure that user is logged in
+        auth_header = request.headers.get('Authorization')
+        if auth_header:
+            auth_token = auth_header.split(" ")[1]
+        else:
+            auth_token = ''
+        if auth_token:
+            response = User.decode_auth_token(auth_token)
+            if not isinstance(response, str):
+                user = User.query.filter_by(id=response).first()
 
-        if name and address:
-            fdc = FoodDistributionCenter(name=name, address=address)
-            fdc.save()
-            result = fdc_schema.dump(FoodDistributionCenter.query.get(fdc.id))
-            response = jsonify({'message': 'Created new FDC',
-                                'fdc': result.data})
-            response.status_code = 201
-            return response
+                #Check that user is correct and a FDC Admin
+                if user.role == 'fdcAdmin':
+                    try:
+                        name, address = data['name'], data['address']
+
+                        if name and address:
+                            fdc = FoodDistributionCenter(name=name, address=address)
+                            user.fdc = fdc
+                            fdc.save()
+                            db.session.commit()
+                            result = fdc_schema.dump(FoodDistributionCenter.query.get(fdc.id))
+                            response = jsonify({'message': 'Created new FDC',
+                                                'fdc': result.data})
+                            response.status_code = 201
+                            return response
+                    except Exception as e:
+                        response_object = {
+                            'status': 'fail',
+                            'message': e
+                        }
+                        return jsonify(response_object), 500
+                else:
+                    response_object = {
+                        'status': 'fail',
+                        'message': 'wrong user'
+                    }
+                    return jsonify(response_object), 401
+            else:
+                response_object = {
+                    'status': 'fail',
+                    'message': response
+                }
+                return jsonify(response_object), 401
+        else:
+            response_object = {
+                'status': 'fail',
+                'message': 'Provide a valid auth token.'
+            }
+            return jsonify(response_object), 401
     else:
         # GET
         fdcs = FoodDistributionCenter.get_all()
@@ -258,7 +300,7 @@ def user(username, **kwargs):
             return jsonify(response_object), 401
 
 @app.route('/users/<string:username>/pickups/', methods=['POST'])
-def create_pickup(username, **kwargs):
+def pickups(username, **kwargs):
     json_data = request.get_json()
     if not json_data:
             return jsonify({'message': 'No input data provided'}), 400
@@ -277,8 +319,8 @@ def create_pickup(username, **kwargs):
         if not isinstance(response, str):
             user = User.query.filter_by(id=response).first()
 
-            #Check that user is correct
-            if username == user.username:
+            #Check that user is correct and a donor
+            if username == user.username and user.role == 'donor':
                 try:
                     description = data['description']
                     #Create new pickup in DB
