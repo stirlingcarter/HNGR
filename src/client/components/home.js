@@ -36,8 +36,8 @@ export default class HomeScreen extends React.Component {
                     />
                     <Button
                         style={styles.button}
-                        onPress={() => this.onSelect('FII')}
-                        title="I am a Food Insecure Individual"
+                        onPress={() => this.props.navigation.navigate('Resources')}
+                        title="I am hungry"
                     />
                 </View>
             </View>
