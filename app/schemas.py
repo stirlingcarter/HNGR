@@ -21,3 +21,10 @@ class UserSchema(Schema):
     registered_on = fields.DateTime()
     role = fields.Str(validate=lambda n: n == 'fdcAdmin' or n == 'volunteer' or n == 'donor')
     fdc = fields.Nested(FDCSchema)
+
+class PickupSchema(Schema):
+    id = fields.Int(dump_only=True)
+    description = fields.Str()
+    registered_on = fields.DateTime()
+    available = fields.Boolean()
+    donor_id = fields.Int()

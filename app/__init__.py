@@ -109,6 +109,8 @@ def users():
             print(errors)
             return jsonify({'error': errors}), 422
 
+        print(data)
+
         username, email, password, first_name, last_name, role = data['username'], data['email'], data['password'], data['first_name'], data['last_name'], data['role']
 
         if username and email and password and first_name and last_name and role:
