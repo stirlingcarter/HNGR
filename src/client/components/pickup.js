@@ -32,7 +32,7 @@ export default class PickupScreen extends React.Component {
     }
 
     getDirections() {
-
+        this.props.navigation.navigate('PMap');
     }
 
     render() {

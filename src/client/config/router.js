@@ -7,7 +7,8 @@ import RegisterScreen   from '../components/register';
 import PickupScreen     from '../components/pickup';
 import ResourceScreen   from '../components/resources';
 import PickupForm       from '../components/pickup_form';
-import PickupView        from '../components/pickup_view';
+import PickupView       from '../components/pickup_view';
+import PickupMap        from '../components/pickup_map';
 // import fdcOptions       from '../components/fdc_pickup';
 //
 // export const PickupStack = StackNavigator({
@@ -76,5 +77,8 @@ export const Main = StackNavigator({
         navigationOptions: {
             title: 'Pickup Requests',
         }
+    },
+    PMap: {
+        screen: PickupMap
     }
 });
