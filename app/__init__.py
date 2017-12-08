@@ -367,3 +367,12 @@ def pickups(username, **kwargs):
             'message': 'Provide a valid auth token.'
         }
         return jsonify(response_object), 401
+
+#Get all pickups
+@app.route('/pickups/', methods=['GET'])
+def get_pickups:
+    pickups = Pickup.get_all()
+    results = pickup_schema.dump(pickups)
+    response = jsonify({'pickups': results.data,
+                        'status': 'success'}), 200
+    return response
