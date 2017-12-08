@@ -21,7 +21,7 @@ class PickupTestCase(unittest.TestCase):
     
     def test_pickup_creation(self):
         #User we're using
-        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer')
+        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='donor', location='nashville')
         schema = UserSchema()
 
         #Register User
@@ -54,7 +54,7 @@ class PickupTestCase(unittest.TestCase):
         self.assertEqual(login_response.status_code, 200)
 
         pickup_schema = PickupSchema()
-        pickup = Pickup(description="My Pickup")
+        pickup = Pickup(description="My Pickup", donor=user)
 
         creation_response = self.client.post('/users/charlie/pickups/',
             data = pickup_schema.dumps(pickup).data,

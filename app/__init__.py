@@ -333,7 +333,7 @@ def pickups(username, **kwargs):
                 try:
                     description = data['description']
                     #Create new pickup in DB
-                    pickup = Pickup(description=description)
+                    pickup = Pickup(description=description, donor=user)
                     user.pickups.append(pickup)
                     pickup.save()
                     db.session.commit()

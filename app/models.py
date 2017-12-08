@@ -112,13 +112,15 @@ class Pickup(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     description = db.Column(db.String)
     registered_on = db.Column(db.DateTime, nullable=False)
-    available = db.Column(db.Boolean(), nullable=False)
+    status = db.Column(db.String(255), nullable=False)
     donor_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    location = db.Column(db.String(255), nullable=False)
 
-    def __init__(self, description):
-        self.available = True
+    def __init__(self, description, donor):
+        self.status = 'available'
         self.registered_on = datetime.datetime.now()
         self.description = description
+        self.location = donor.location
 
     def save(self):
         db.session.add(self)
