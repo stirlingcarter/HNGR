@@ -24,12 +24,7 @@
     "react-native": "^0.50.4",
     "react-native-elements": "^0.18.4",
     "react-native-keyboard-aware-scroll-view": "^0.4.1",
-<<<<<<< Updated upstream
     "react-native-maps": "^0.18.3",
-    "react-navigation": "^1.0.0-beta.21"
-=======
-    "react-navigation": "^1.0.0-beta.21",
     "watchman": "^1.0.0"
->>>>>>> Stashed changes
   }
 }
