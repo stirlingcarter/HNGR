@@ -28,12 +28,13 @@ export default class RegisterScreen extends React.Component {
           first_name: this.state.first_name,
           last_name: this.state.last_name,
           role: params.type,
+          location: this.state.location,
         })
       })
       .then((response) => response.json())
       .then((res) => {
-        if (res.error) {
-          alert(res.error);
+        if (res.status == 'fail') {
+          alert("Failed!");
         } else {
           this.setState({auth_token: res.auth_token});
           alert(`Success! You may now log in.`);
@@ -84,6 +85,11 @@ export default class RegisterScreen extends React.Component {
                 <FormInput containerStyle={styles.formContainer}
                            inputStyle={styles.formInput}
                            onChangeText={(last_name) => this.setState({last_name})}/>
+
+                <FormLabel labelStyle={styles.formLabel}>Your Address</FormLabel>
+                <FormInput containerStyle={styles.formContainer}
+                           inputStyle={styles.formInput}
+                           onChangeText={(location) => this.setState({location})}/>
 
                 <Button
                     style={styles.button}

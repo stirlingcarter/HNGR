@@ -35,15 +35,20 @@ export default class LoginScreen extends React.Component {
         })
       })
       .then((res) => {
-        if (res.error) {
-          alert(res.error);
+        if(res){
+          if (res.status == 'fail') {
+            alert(res.message);
+          } else {
+            this.setState({auth_token: res.token});
+            // Redirect
+            alert(res.message);
+            alert('auth token ' + res.token);
+            this.props.navigation.navigate('Tabs', {type: type, username: this.state.username, auth_token: res.token});
+            //   this.props.navigation.dispatch(resetAction);
+          }
         } else {
-          this.setState({auth_token: res.token});
-          // Redirect
-          this.props.navigation.navigate('Tabs', {type});
-          //   this.props.navigation.dispatch(resetAction);
-        }
-      })
+        alert('no response object');
+      }})
       .catch((e) => {
         alert('There was an error logging in.');
       });

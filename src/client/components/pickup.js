@@ -16,8 +16,8 @@ export default class PickupScreen extends React.Component {
     }
 
     // user story 1
-    pickupReq(type) {
-        this.props.navigation.navigate('PForm',{type});
+    pickupReq(type, username, auth_token) {
+        this.props.navigation.navigate('PForm',{type, username, auth_token});
     }
 
     // user story 5 & 8
@@ -48,7 +48,7 @@ export default class PickupScreen extends React.Component {
                 <Button
                     style={styles.button}
                     title="Post Pickup Request"
-                    onPress={() => this.pickupReq(params.type)}
+                    onPress={() => this.pickupReq(params.type, params.username, params.token)}
                 />
 
                 <Button

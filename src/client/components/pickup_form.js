@@ -10,7 +10,37 @@ export default class PickupForm extends React.Component {
     }
 
     onSubmit() {
-
+      const { params } = this.props.navigation.state;
+      fetch(`http://18.216.237.239:5000/users/${params.username}/pickups/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        description: this.state.description,
+        name: this.state.name,
+        auth_token: params.auth_token,
+      })
+    })
+    .then((response) => response.json())
+    .then((res) => {
+      if(res){
+          if (res.status == 'fail') {
+            alert(res.message);
+            alert('Username' + params.username);
+            alert(params.auth_token);
+          } else {
+            alert(res.message);
+            alert(`Success! Pickup posted!`);
+          }
+      } else {
+        alert('no response object');
+      }
+    })
+    .catch((e) => {
+      alert('There was an error posting the pickup.');
+    });
     }
 
     render() {
