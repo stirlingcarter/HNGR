@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Alert} from 'react-native';
 import { Button, FormLabel, FormInput} from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-export default class PickupForm extends React.Component {
+export default class VolInfo extends React.Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
@@ -24,22 +24,27 @@ export default class PickupForm extends React.Component {
                 scrollEnabled={false}>
 
                 <View style={styles.container}>
-                    <Text style={styles.plainText}>Pickup Request</Text>
+                    <Text style={styles.plainText}>Update Volunteer Info</Text>
 
                     <FormLabel labelStyle={styles.formLabel}>Name</FormLabel>
                     <FormInput containerStyle={styles.formContainer}
                                inputStyle={styles.formInput}
                                onChangeText={(name) => this.setState({name})}/>
 
-                    <FormLabel labelStyle={styles.formLabel}>Description</FormLabel>
+                    <FormLabel labelStyle={styles.formLabel}>Availability</FormLabel>
                     <FormInput containerStyle={styles.formContainer}
                                inputStyle={styles.formInput}
-                               onChangeText={(description) => this.setState({description})}/>
+                               onChangeText={(availability) => this.setState({availability})}/>
+
+                    <FormLabel labelStyle={styles.formLabel}>Location</FormLabel>
+                    <FormInput containerStyle={styles.formContainer}
+                               inputStyle={styles.formInput}
+                               onChangeText={(Location) => this.setState({Location})}/>
 
 
                     <Button
                         style={styles.button}
-                        title="Request"
+                        title="Update Info"
                         onPress={() => this.onSubmit()}
                     />
                 </View>
