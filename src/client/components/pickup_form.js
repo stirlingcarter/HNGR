@@ -15,28 +15,22 @@ export default class PickupForm extends React.Component {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json'
+        Accept: 'application/json',
+        Authorization:'Bearer ' + params.auth_token,
       },
       body: JSON.stringify({
         description: this.state.description,
         name: this.state.name,
-        auth_token: params.auth_token,
       })
     })
     .then((response) => response.json())
     .then((res) => {
-      if(res){
-          if (res.status == 'fail') {
-            alert(res.message);
-            alert('Username' + params.username);
-            alert(params.auth_token);
-          } else {
-            alert(res.message);
-            alert(`Success! Pickup posted!`);
-          }
+      if (res.status == 'fail') {
+        alert(res.message);
+        alert(params.auth_token)
       } else {
-        alert('no response object');
-      }
+        alert(`Success! Pickup posted!`);
+        }
     })
     .catch((e) => {
       alert('There was an error posting the pickup.');

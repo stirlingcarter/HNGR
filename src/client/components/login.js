@@ -38,13 +38,12 @@ export default class LoginScreen extends React.Component {
       .then((data) => {
         if(data){
           if (data.status == 'fail') {
-            alert('fail');
+            alert(data.message);
           } else {
-            alert(data.auth_token);
             this.setState({auth_token: data.auth_token});
             // Redirect
             //alert(res.data.message);
-            //alert('auth token ' + res.token);
+            alert('auth token ' + res.token);
             this.props.navigation.navigate('Tabs', {type: type, username: this.state.username, auth_token: data.token});
             //   this.props.navigation.dispatch(resetAction);
           }
