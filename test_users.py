@@ -6,7 +6,7 @@ from app import app, db
 from app.models import User
 from app.schemas import UserSchema
 
-class DistributionCenterTestCase(unittest.TestCase):
+class UserTestCase(unittest.TestCase):
     """This class represents the User test case"""
 
     def setUp(self):
@@ -20,18 +20,18 @@ class DistributionCenterTestCase(unittest.TestCase):
             db.create_all()
 
     def test_encode_auth_token(self):
-        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer')
+        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer', location='nashville')
         auth_token = user.encode_auth_token(user_id=user.id)
         self.assertTrue(isinstance(auth_token, bytes))
 
     def test_decode_auth_token(self):
-        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer')
+        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer', location='nashville')
         auth_token = user.encode_auth_token(user_id=user.username)
         self.assertTrue(isinstance(auth_token, bytes))
         self.assertTrue(User.decode_auth_token(auth_token) == user.username)
 
     def test_user_registration(self):
-        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer')
+        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer', location='nashville')
         schema = UserSchema()
         response = self.client.post(
             '/users/',
@@ -46,7 +46,7 @@ class DistributionCenterTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
 
     def test_registered_with_already_registered_user(self):
-        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer')
+        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer', location='nashville')
         schema = UserSchema()
         self.client.post('/users/',
             data = schema.dumps(user).data,
@@ -67,7 +67,7 @@ class DistributionCenterTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 202)
 
     def test_user_login(self):
-        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer')
+        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer', location='nashville')
         schema = UserSchema()
 
         register_response = self.client.post('/users/',
@@ -98,7 +98,7 @@ class DistributionCenterTestCase(unittest.TestCase):
         self.assertEqual(login_response.status_code, 200)
 
     def test_user_login_fail(self):
-        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer')
+        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer', location='nashville')
         schema = UserSchema()
 
         login_response = self.client.post('/users/login',
@@ -112,7 +112,7 @@ class DistributionCenterTestCase(unittest.TestCase):
         self.assertEqual(login_response.status_code, 404)
 
     def test_user_get_info(self):
-        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer')
+        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer', location='nashville')
         schema = UserSchema()
 
         register_response = self.client.post('/users/',
@@ -139,7 +139,7 @@ class DistributionCenterTestCase(unittest.TestCase):
         self.assertTrue(data['data']['role'] == 'volunteer')
 
     def test_logout(self):
-        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer')
+        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer', location='nashville')
         schema = UserSchema()
 
         #Register

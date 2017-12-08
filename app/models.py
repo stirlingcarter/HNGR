@@ -15,11 +15,12 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
     role = db.Column(db.String(255), nullable=False)
+    location = db.Column(db.String(255), nullable=False)
     available = db.Column(db.Boolean(), nullable=False)
-    fdc = db.relationship('FoodDistributionCenter', backref='admin', lazy=True)
+    fdc = db.relationship('FoodDistributionCenter', uselist=False, backref='admin', lazy=True)
     pickups = db.relationship('Pickup', backref='donor', lazy=True)
 
-    def __init__(self, username, email, password, first_name, last_name, role):
+    def __init__(self, username, email, password, first_name, last_name, role, location):
         self.username = username
         self.email = email
         self.first_name = first_name
@@ -30,6 +31,7 @@ class User(db.Model):
         ).decode()
         self.available = False
         self.registered_on = datetime.datetime.now()
+        self.location = location
 
     def save(self):
         db.session.add(self)
@@ -136,7 +138,7 @@ class FoodDistributionCenter(db.Model):
     opening_time = db.Column(db.Time, default=datetime.time(hour=8))
     closing_time = db.Column(db.Time, default=datetime.time(hour=17))
     address = db.Column(db.String(255))
-    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
+    date_created = db.Column(db.DateTime)
     date_modified = db.Column(
         db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
@@ -146,9 +148,10 @@ class FoodDistributionCenter(db.Model):
         """initialize with name."""
         self.name = name
         self.address = address
-
-        """Placeholder user information"""
-        self.admin = User(username='churkle', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='volunteer')
+        self.opening_time = datetime.time(hour=8)
+        self.closing_time = datetime.time(hour=17)
+        self.date_created = datetime.datetime.now()
+        self.date_modified = self.date_created
 
     def save(self):
         db.session.add(self)
@@ -163,4 +166,4 @@ class FoodDistributionCenter(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return "<Food Distribution Center: {} \n Address: {1}>".format(self.name, self.address)
+        return "<Food Distribution Center: {0} \n Address: {1}>".format(self.name, self.address)

@@ -18,8 +18,8 @@ class UserSchema(Schema):
     last_name = fields.Str()
     password = fields.Str()
     registered_on = fields.DateTime()
+    location = fields.Str()
     role = fields.Str(validate=lambda n: n == 'fdcAdmin' or n == 'volunteer' or n == 'donor')
-    fdc = fields.Nested(FDCSchema)
 
 class PickupSchema(Schema):
     id = fields.Int(dump_only=True)

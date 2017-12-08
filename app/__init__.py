@@ -9,6 +9,7 @@ from instance.config import app_config
 # initialize sql-alchemy
 db = SQLAlchemy()
 
+#Initialize app
 app = Flask(__name__)
 config_name = os.getenv('APP_SETTINGS') # config_name = "development"
 app.config.from_object(app_config[config_name])
@@ -17,9 +18,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 bcrypt = Bcrypt(app)
 
+#Import SQL_alchemy models
 from app.models import FoodDistributionCenter, User, BlacklistToken, Pickup
 from app.schemas import FDCSchema, UserSchema, PickupSchema
 
+#Initialize Marshmallow schemas
 fdc_schema = FDCSchema()
 fdcs_schema = FDCSchema(many=True)
 user_schema = UserSchema()
@@ -27,6 +30,7 @@ users_schema = UserSchema(many=True)
 pickup_schema = PickupSchema()
 pickups_schema = PickupSchema(many=True)
 
+#Create a new FDC and get all FDCs
 @app.route('/fdcs/', methods=['POST', 'GET'])
 def fdcs():
     if request.method == "POST":
@@ -62,7 +66,8 @@ def fdcs():
                             fdc.save()
                             db.session.commit()
                             result = fdc_schema.dump(FoodDistributionCenter.query.get(fdc.id))
-                            response = jsonify({'message': 'Created new FDC',
+                            response = jsonify({'status': 'success',
+                                                'message': 'Successfully created FDC.',
                                                 'fdc': result.data})
                             response.status_code = 201
                             return response
@@ -94,10 +99,12 @@ def fdcs():
         # GET
         fdcs = FoodDistributionCenter.get_all()
         results = fdcs_schema.dump(fdcs)
-        response = jsonify({'fdcs': results.data})
+        response = jsonify({'fdcs': results.data,
+                            'status': 'success'})
         response.status_code = 200
         return response
 
+#Get, edit, or delete a specific FDC
 @app.route('/fdcs/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def fdc_manipulation(id, **kwargs):
     # retrieve a FDC using it's ID
@@ -138,9 +145,10 @@ def fdc_manipulation(id, **kwargs):
         # GET
         result = fdc_schema.dump(FoodDistributionCenter.query.get(fdc.id))
         response = jsonify({'fdc': result.data})
-        response.status_code = 201
+        response.status_code = 200
         return response
 
+#Register a new user or get a list of all users
 @app.route('/users/', methods=['POST', 'GET'])
 def users():
     if request.method == "POST":
@@ -150,17 +158,16 @@ def users():
         
         data, errors = user_schema.load(json_data)
         if errors:
-            print(errors)
             return jsonify({'error': errors}), 422
 
-        username, email, password, first_name, last_name, role = data['username'], data['email'], data['password'], data['first_name'], data['last_name'], data['role']
+        username, email, password, first_name, last_name, role, location = data['username'], data['email'], data['password'], data['first_name'], data['last_name'], data['role'], data['location']
 
-        if username and email and password and first_name and last_name and role:
+        if username and email and password and first_name and last_name and role and location:
             old_user = User.query.filter_by(username=username).first()
             email_user = User.query.filter_by(email=email).first()
             if not old_user and not email_user:
                 try:
-                    user = User(username=username, email=email, password=password, first_name=first_name, last_name=last_name, role=role)
+                    user = User(username=username, email=email, password=password, first_name=first_name, last_name=last_name, role=role, location=location)
                     user.save()
 
                     #Generate JWT
@@ -185,6 +192,7 @@ def users():
                 }
                 return jsonify(responseObject), 202
 
+#Login user
 @app.route('/users/login', methods=['POST'])
 def login():
     json_data = request.get_json()
@@ -217,13 +225,13 @@ def login():
                 return jsonify(response_object), 404
 
         except Exception as e:
-            print(e)
             response_object = {
                 'status': 'fail',
                 'message': 'Try again'
             }
             return jsonify(response_object), 500
 
+#Logout user by blacklisting their JWT
 @app.route('/users/logout', methods=['POST'])
 def logout():
     auth_header = request.headers.get('Authorization')
@@ -262,7 +270,7 @@ def logout():
         }
         return jsonify(response_object), 403
 
-
+#Get or edit a specific user
 @app.route('/users/<string:username>', methods=['GET', 'PUT'])
 def user(username, **kwargs):
     if request.method == "GET":
@@ -299,6 +307,7 @@ def user(username, **kwargs):
             }
             return jsonify(response_object), 401
 
+#Create a new pickup
 @app.route('/users/<string:username>/pickups/', methods=['POST'])
 def pickups(username, **kwargs):
     json_data = request.get_json()
@@ -333,7 +342,7 @@ def pickups(username, **kwargs):
                         'status': 'success',
                         'message': 'Successfully created pickup.'
                     }
-                    return jsonify(response_object), 200
+                    return jsonify(response_object), 201
                 except Exception as e:
                     response_object = {
                         'status': 'fail',

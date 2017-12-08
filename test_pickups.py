@@ -65,11 +65,10 @@ class PickupTestCase(unittest.TestCase):
         )
 
         creation_data = json.loads(creation_response.data.decode())
-        print(creation_data)
         self.assertTrue(creation_data['status'] == 'success')
         self.assertTrue(creation_data['message'] == 'Successfully created pickup.')
         self.assertTrue(creation_response.content_type == 'application/json')
-        self.assertEqual(creation_response.status_code, 200)
+        self.assertEqual(creation_response.status_code, 201)
 
     def tearDown(self):
         """teardown all initialized variables."""
