@@ -76,6 +76,7 @@ def fdcs():
                             'status': 'fail',
                             'message': e
                         }
+                        print(response_object)
                         return jsonify(response_object), 500
                 else:
                     response_object = {
@@ -88,12 +89,14 @@ def fdcs():
                     'status': 'fail',
                     'message': response
                 }
+                print(response_object)
                 return jsonify(response_object), 401
         else:
             response_object = {
                 'status': 'fail',
                 'message': 'Provide a valid auth token.'
             }
+            print(response_object)
             return jsonify(response_object), 401
     else:
         # GET
