@@ -8,7 +8,9 @@ import PickupScreen     from '../components/pickup';
 import ResourceScreen   from '../components/resources';
 import PickupForm       from '../components/pickup_form';
 import PickupView       from '../components/pickup_view';
+import VolInfo          from '../components/vol_info';
 import PickupMap        from '../components/pickup_map';
+import Profile          from '../components/profile';
 // import fdcOptions       from '../components/fdc_pickup';
 //
 // export const PickupStack = StackNavigator({
@@ -78,7 +80,19 @@ export const Main = StackNavigator({
             title: 'Pickup Requests',
         }
     },
+    VInfo: {
+        screen: VolInfo,
+        navigationOptions: {
+            title: 'Update Info',
+        }
+    },
     PMap: {
         screen: PickupMap
+    },
+    Profile: {
+        screen: Profile,
+        navigationOptions: {
+            title: 'Profile',
+        }
     }
 });

@@ -10,29 +10,33 @@ export default class PickupScreen extends React.Component {
         super(props);
         this.pickupReq = this.pickupReq.bind(this);
         this.pickupView = this.pickupView.bind(this);
-        this.pickupAccept = this.pickupAccept.bind(this);
-        this.setInfo = this.setInfo.bind(this);
+        this.setVolInfo = this.setVolInfo.bind(this);
         this.getDirections = this.getDirections.bind(this);
+        this.getProfile = this.getProfile.bind(this);
     }
 
+    // user story 1
     pickupReq(type) {
         this.props.navigation.navigate('PForm',{type});
     }
 
+    // user story 5 & 8
     pickupView(type) {
         this.props.navigation.navigate('PView',{type});
     }
 
-    pickupAccept() {
-
+    // user story 6
+    setVolInfo() {
+        this.props.navigation.navigate('VInfo');
     }
 
-    setInfo() {
-
-    }
-
+    // user story 9
     getDirections() {
         this.props.navigation.navigate('PMap');
+    }
+
+    getProfile(type) {
+        this.props.navigation.navigate('Profile', {type});
     }
 
     render() {
@@ -49,26 +53,26 @@ export default class PickupScreen extends React.Component {
 
                 <Button
                     style={styles.button}
-                    title="View Pickup Requests"
+                    title="View or Accept Pickups"
                     onPress={() => this.pickupView(params.type)}
                 />
 
                 <Button
                     style={styles.button}
-                    title="Accept Pickup Requests"
-                    onPress={() => this.pickupAccept()}
-                />
-
-                <Button
-                    style={styles.button}
                     title="Set Volunteer Info"
-                    onPress={() => this.setInfo()}
+                    onPress={() => this.setVolInfo()}
                 />
 
                 <Button
                     style={styles.button}
                     title="Goggle Map Directions"
                     onPress={() => this.getDirections()}
+                />
+
+                <Button
+                    style={styles.button}
+                    title="View Profile"
+                    onPress={() => this.getProfile(params.type)}
                 />
 
             </View>
