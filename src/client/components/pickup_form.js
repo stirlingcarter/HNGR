@@ -7,39 +7,47 @@ export default class PickupForm extends React.Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
+        this.state = {
+            auth_token: '',
+            username: ''
+        };
     }
 
     async getToken() {
-        return await AsyncStorage.getItem('webtoken');
+        let token = '';
+        await AsyncStorage.getItem('webtoken', (err, item) => {
+            this.setState({auth_token: item});
+            fetch(`http://18.216.237.239:5000/users/${this.state.username}/pickups/`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Accept: 'application/json',
+                  Authorization: 'Bearer ' + this.state.auth_token,
+                },
+                body: JSON.stringify({
+                  description: this.state.description,
+                  name: this.state.name,
+                })
+              })
+              .then((response) => response.json())
+              .then((res) => {
+                if (res.status == 'fail') {
+                  alert(res.message);
+                  alert(this.state.auth_token);
+                } else {
+                  alert(`Success! Pickup posted!`);
+                  }
+              })
+              .catch((e) => {
+                alert('There was an error posting the pickup.');
+              });
+        });
     }
 
     onSubmit() {
       const { params } = this.props.navigation.state;
-      const auth_token = this.getToken();
-      fetch(`http://18.216.237.239:5000/users/${params.username}/pickups/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: 'Bearer ' + auth_token,
-      },
-      body: JSON.stringify({
-        description: this.state.description,
-        name: this.state.name,
-      })
-    })
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.status == 'fail') {
-        alert(res.message);
-        alert(auth_token)
-      } else {
-        alert(`Success! Pickup posted!`);
-        }
-    })
-    .catch((e) => {
-      alert('There was an error posting the pickup.');
-    });
+      this.setState({username: params.username});
+      this.getToken();
     }
 
     render() {

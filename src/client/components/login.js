@@ -7,6 +7,9 @@ export default class LoginScreen extends React.Component {
     constructor(props) {
         super(props);
         this.onRegister = this.onRegister.bind(this);
+        this.state = {
+            isLoading: false
+        };
     }
 
     onRegister(type) {
@@ -14,7 +17,9 @@ export default class LoginScreen extends React.Component {
     }
 
     async setToken(token) {
-        await AsyncStorage.setItem('webtoken', token);
+        await AsyncStorage.setItem('webtoken', token, () => {
+            this.setState({isLoading: false})
+        });
     }
 
     onLogin(type) {
@@ -48,6 +53,7 @@ export default class LoginScreen extends React.Component {
             // Redirect
             //alert(res.data.message);
             this.props.navigation.navigate('Tabs', {type: type, username: this.state.username});
+            this.setState({isLoading: true});
             this.setToken(data.auth_token);
             //   this.props.navigation.dispatch(resetAction);
           }
@@ -61,6 +67,9 @@ export default class LoginScreen extends React.Component {
 
     render() {
         const { params } = this.props.navigation.state;
+        if (this.state.isLoading) {
+            return <View><Text>Loading...</Text></View>;
+        }
         return (
             <View style={styles.container}>
                 <FormLabel labelStyle={styles.formLabel}>Username</FormLabel>
