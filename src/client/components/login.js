@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Alert} from 'react-native';
+import { StyleSheet, View, Text, Alert, AsyncStorage} from 'react-native';
 import { Button, FormLabel, FormInput} from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 
@@ -11,6 +11,10 @@ export default class LoginScreen extends React.Component {
 
     onRegister(type) {
         this.props.navigation.navigate('Register', {type});
+    }
+
+    async setToken(token) {
+        await AsyncStorage.setItem('webtoken', token);
     }
 
     onLogin(type) {
@@ -43,8 +47,8 @@ export default class LoginScreen extends React.Component {
             this.setState({auth_token: data.auth_token});
             // Redirect
             //alert(res.data.message);
-            alert('auth token ' + data.auth_token);
-            this.props.navigation.navigate('Tabs', {type: type, username: this.state.username, auth_token: data.token});
+            this.props.navigation.navigate('Tabs', {type: type, username: this.state.username});
+            this.setToken(data.auth_token);
             //   this.props.navigation.dispatch(resetAction);
           }
         } else {

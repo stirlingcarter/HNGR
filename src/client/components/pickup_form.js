@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Alert} from 'react-native';
+import { StyleSheet, View, Text, Alert, AsyncStorage} from 'react-native';
 import { Button, FormLabel, FormInput} from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -9,14 +9,19 @@ export default class PickupForm extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
+    async getToken() {
+        return await AsyncStorage.getItem('webtoken');
+    }
+
     onSubmit() {
       const { params } = this.props.navigation.state;
+      const auth_token = this.getToken();
       fetch(`http://18.216.237.239:5000/users/${params.username}/pickups/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: 'Bearer ' + params.auth_token,
+        Authorization: 'Bearer ' + auth_token,
       },
       body: JSON.stringify({
         description: this.state.description,
@@ -27,7 +32,7 @@ export default class PickupForm extends React.Component {
     .then((res) => {
       if (res.status == 'fail') {
         alert(res.message);
-        alert(params.auth_token)
+        alert(auth_token)
       } else {
         alert(`Success! Pickup posted!`);
         }

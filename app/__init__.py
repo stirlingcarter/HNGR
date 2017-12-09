@@ -327,6 +327,7 @@ def pickups(username, **kwargs):
     else:
         auth_token = ''
     if auth_token:
+        print(auth_token)
         response = User.decode_auth_token(auth_token)
         if not isinstance(response, str):
             user = User.query.filter_by(id=response).first()
