@@ -25,4 +25,5 @@ class PickupSchema(Schema):
     id = fields.Int(dump_only=True)
     description = fields.Str()
     registered_on = fields.DateTime()
+    location = fields.Str(dump_only=True)
     status = fields.Str(validate=lambda n: n == 'available' or n == 'assigned' or n == 'incoming' or n == 'delivered')
