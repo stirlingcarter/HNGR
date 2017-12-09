@@ -65,7 +65,7 @@ export default class PickupScreen extends React.Component {
 
                 <Button
                     style={styles.button}
-                    title="Goggle Map Directions"
+                    title="Google Map Directions"
                     onPress={() => this.getDirections()}
                 />
 

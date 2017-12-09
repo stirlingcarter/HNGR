@@ -376,7 +376,7 @@ def pickups(username, **kwargs):
 @app.route('/pickups/', methods=['GET'])
 def get_pickups():
     pickups = Pickup.get_all()
-    results = pickup_schema.dump(pickups)
+    results = pickups_schema.dump(pickups)
     response = jsonify({'pickups': results.data,
                         'status': 'success'}), 200
     return response

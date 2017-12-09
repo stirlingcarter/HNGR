@@ -6,14 +6,32 @@ import { Button } from 'react-native-elements';
 export default class PickupView extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            pickups: []
+        };
     }
+
+    componentDidMount() {
+        
+    }
+
+    _renderItem = ({pickup}) => (
+        <Text>
+            Description: {pickup.description}
+            Created: {pickup.registered_on}
+            Location: {pickup.location}
+        </Text>
+    );
 
     render() {
         const { params } = this.props.navigation.state;
         return (
             <View style={styles.container}>
                 <Text style={styles.plainText}>View Pickup</Text>
-
+                <FlatList
+                    data={this.state.pickups}
+                    renderItem={this._renderItem}
+                />
             </View>
         );
     }
