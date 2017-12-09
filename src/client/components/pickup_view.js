@@ -1,39 +1,78 @@
 import React from 'react';
-import { StyleSheet, View, Text} from 'react-native';
-import { Button } from 'react-native-elements';
+import { StyleSheet, View, Text, FlatList} from 'react-native';
+import { Button, ListItem } from 'react-native-elements';
 
 
 export default class PickupView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pickups: []
+            pickups: [],
+            isLoading: true
         };
     }
 
-    componentDidMount() {
-        
+    componentWillMount() {
+        fetch(`http://18.216.237.239:5000/pickups/`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            }
+          })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status == 'fail') {
+                alert(data.message);
+            } else {
+                pickupData = data.pickups.map(obj => {return {id: obj.id, description: obj.description, 
+                    location: obj.location, registered_on: obj.registered_on, status: obj.status}});
+                this.setState({pickups: pickupData}, () => {
+                    this.setState({isLoading: false});
+                });
+            }
+          })
     }
 
-    _renderItem = ({pickup}) => (
-        <Text>
-            Description: {pickup.description}
-            Created: {pickup.registered_on}
-            Location: {pickup.location}
-        </Text>
+    renderSeparator = () => {
+        return (
+          <View
+            style={{
+              height: 1,
+              width: "86%",
+              backgroundColor: "#CED0CE",
+              marginLeft: "14%"
+            }}
+          />
+        );
+      };
+
+    _renderItem = ({item}) => (
+        <ListItem
+            title={`${item.description} @ ${item.location}`}
+            subtitle={item.registered_on}
+            containerStyle={{ borderBottomWidth: 0 }}            
+        />
     );
+
+    _keyExtractor = (item, index) => item.id;
 
     render() {
         const { params } = this.props.navigation.state;
-        return (
-            <View style={styles.container}>
-                <Text style={styles.plainText}>View Pickup</Text>
-                <FlatList
-                    data={this.state.pickups}
-                    renderItem={this._renderItem}
-                />
-            </View>
-        );
+        if(this.state.isLoading) {
+            return <View><Text>Loading...</Text></View>;
+        } else {
+            return (
+                <View style={styles.container}>
+                    <FlatList
+                        data={this.state.pickups}
+                        renderItem={this._renderItem}
+                        keyExtractor={this._keyExtractor}
+                        ItemSeparatorComponent={this.renderSeparator}                        
+                    />
+                </View>
+            );
+        }
     }
 }
 
