@@ -16,7 +16,7 @@ export default class PickupForm extends React.Component {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization:'Bearer ' + params.auth_token,
+        Authorization: 'Bearer ' + params.auth_token,
       },
       body: JSON.stringify({
         description: this.state.description,
@@ -49,11 +49,6 @@ export default class PickupForm extends React.Component {
 
                 <View style={styles.container}>
                     <Text style={styles.plainText}>Pickup Request</Text>
-
-                    <FormLabel labelStyle={styles.formLabel}>Name</FormLabel>
-                    <FormInput containerStyle={styles.formContainer}
-                               inputStyle={styles.formInput}
-                               onChangeText={(name) => this.setState({name})}/>
 
                     <FormLabel labelStyle={styles.formLabel}>Description</FormLabel>
                     <FormInput containerStyle={styles.formContainer}

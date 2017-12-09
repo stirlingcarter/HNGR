@@ -315,7 +315,7 @@ def user(username, **kwargs):
 def pickups(username, **kwargs):
     json_data = request.get_json()
     if not json_data:
-            return jsonify({'message': 'No input data provided'}), 400
+        return jsonify({'message': 'No input data provided'}), 400
 
     data, errors = pickup_schema.load(json_data)
     if errors:
@@ -349,7 +349,7 @@ def pickups(username, **kwargs):
                 except Exception as e:
                     response_object = {
                         'status': 'fail',
-                        'message': e
+                        'message': str(e)
                     }
                     return jsonify(response_object), 500
             else:

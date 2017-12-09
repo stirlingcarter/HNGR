@@ -43,7 +43,7 @@ export default class LoginScreen extends React.Component {
             this.setState({auth_token: data.auth_token});
             // Redirect
             //alert(res.data.message);
-            alert('auth token ' + res.token);
+            alert('auth token ' + data.auth_token);
             this.props.navigation.navigate('Tabs', {type: type, username: this.state.username, auth_token: data.token});
             //   this.props.navigation.dispatch(resetAction);
           }
