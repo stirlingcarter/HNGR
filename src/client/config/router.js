@@ -11,19 +11,7 @@ import PickupView       from '../components/pickup_view';
 import VolInfo          from '../components/vol_info';
 import PickupMap        from '../components/pickup_map';
 import Profile          from '../components/profile';
-// import fdcOptions       from '../components/fdc_pickup';
-//
-// export const PickupStack = StackNavigator({
-//     Form: {
-//         screen: PickupForm,
-//         navigationOptions: {
-//             title: 'Pickup Form',
-//         }
-//     },
-//     FDC: {
-//         screen: fdcOptions
-//     }
-// });
+import FDCOptions       from '../components/fdc_options';
 
 export const Tabs = TabNavigator({
     Pickup: {
@@ -93,6 +81,12 @@ export const Main = StackNavigator({
         screen: Profile,
         navigationOptions: {
             title: 'Profile',
+        }
+    },
+    FDCOpt: {
+        screen: FDCOptions,
+        navigationOptions: {
+            title: 'FDC Options',
         }
     }
 });

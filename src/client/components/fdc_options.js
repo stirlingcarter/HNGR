@@ -27,24 +27,21 @@ export default class fdcOptions extends React.Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>FDC Options</Text>
-                /* TODO: FDC MANAGER
-                * probably render in a list
-                * */
+
                 <Button
+                    style={styles.button}
                     title="View Incoming Deliveries"
                     onPress={() => this.onView()}
                 />
 
-                /* TODO: FDC MANAGER
-                * attached to an incoming delivery item
-                * */
                 <Button
+                    style={styles.button}
                     title="Set Delivery Instructions"
                     onPress={() => this.setInstructs()}
                 />
 
-                /* TODO: FDC MANAGER */
                 <Button
+                    style={styles.button}
                     title="Set Hours and Locations"
                     onPress={() => this.setOpts()}
                 />
@@ -55,7 +52,7 @@ export default class fdcOptions extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: '#a0e7a0',
         padding: 30,
         flex: 1,
         flexDirection: 'column',
@@ -69,5 +66,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 50,
     },
+    button: {
+        marginTop: 15
+    }
 });
 

@@ -1,9 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text} from 'react-native';
 import { Button } from 'react-native-elements';
-import renderIf from './renderif';
-// import fdcOptions from './fdc_pickup';
-
 
 export default class PickupScreen extends React.Component {
     constructor(props) {
@@ -13,6 +10,7 @@ export default class PickupScreen extends React.Component {
         this.setVolInfo = this.setVolInfo.bind(this);
         this.getDirections = this.getDirections.bind(this);
         this.getProfile = this.getProfile.bind(this);
+        this.fdcOptions = this.fdcOptions.bind(this);
     }
 
     // user story 1
@@ -37,6 +35,10 @@ export default class PickupScreen extends React.Component {
 
     getProfile(type) {
         this.props.navigation.navigate('Profile', {type});
+    }
+
+    fdcOptions() {
+        this.props.navigation.navigate('FDCOpt');
     }
 
     render() {
@@ -73,6 +75,12 @@ export default class PickupScreen extends React.Component {
                     style={styles.button}
                     title="View Profile"
                     onPress={() => this.getProfile(params.type)}
+                />
+
+                <Button
+                    style={styles.button}
+                    title="FDC Options"
+                    onPress={() => this.fdcOptions()}
                 />
 
             </View>
