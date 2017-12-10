@@ -233,6 +233,8 @@ class DistributionCenterTestCase(unittest.TestCase):
             data={'name': 'Wendys'},
             content_type = 'application/json'
         )
+        
+        print(put_response.data)
         self.assertEqual(put_response.status_code, 200)
         results = self.client().get('/fdcs/1')
         self.assertIn('Wendys', str(results.data))

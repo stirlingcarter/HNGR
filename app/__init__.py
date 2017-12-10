@@ -116,40 +116,58 @@ def fdc_manipulation(id, **kwargs):
     except IntegrityError:
         return jsonify({"message": "FDC could not be found."}), 400
 
-    if request.method == 'DELETE':
-        fdc.delete()
-        return {
-        "message": "Food Distribution Center {} deleted successfully".format(fdc.name) 
-        }, 200
-
-    elif request.method == 'PUT':
-        json_data = request.get_json()
-        if not json_data:
-            return jsonify({'message': 'No input data provided'}), 400
-        
-        data, errors = fdc_schema.load(json_data)
-        if errors:
-            return jsonify(errors), 422
-
-        name, address = data['name'], data['address']
-
-        if name:
-            fdc.name = name
-        if address:
-            fdc.address = address
-
-        fdc.save()
-        result = fdc_schema.dump(FoodDistributionCenter.query.get(fdc.id))
-        response = jsonify({'message': 'Edited FDC',
-                            'fdc': result.data})
-        response.status_code = 201
-        return response
-    else:
+    if request.method == 'GET':
         # GET
         result = fdc_schema.dump(FoodDistributionCenter.query.get(fdc.id))
         response = jsonify({'fdc': result.data})
         response.status_code = 200
         return response
+
+    #Ensure that user is logged in
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+        auth_token = auth_header.split(" ")[1]
+    else:
+        auth_token = ''
+    if auth_token:
+        response = User.decode_auth_token(auth_token)
+        if not isinstance(response, str):
+            user = User.query.filter_by(id=response).first()
+
+            #Check that user is correct and a FDC Admin
+            if user.role == 'fdcAdmin':
+                if fdc.admin_id == user.id:
+                    if request.method == 'DELETE':
+                        fdc.delete()
+                        return {"message": "Food Distribution Center {} deleted successfully".format(fdc.name)}, 200
+
+                    elif request.method == 'PUT':
+                        json_data = request.get_json()
+                        if not json_data:
+                            return jsonify({'message': 'No input data provided'}), 400
+                        
+                        #Check for errors when loading from FDC Schema
+                        data, errors = fdc_schema.load(json_data)
+                        if errors:
+                            return jsonify(errors), 422
+
+                        name, address, opening_time, closing_time = data['name'], data['address'], data['opening_time'], data['closing_time']
+
+                        if name:
+                            fdc.name = name
+                        if address:
+                            fdc.address = address
+                        if opening_time:
+                            fdc.opening_time = opening_time
+                        if closing_time:
+                            fdc.closing_time = closing_time
+
+                        fdc.save()
+                        result = fdc_schema.dump(FoodDistributionCenter.query.get(fdc.id))
+                        response = jsonify({'message': 'Edited FDC',
+                                            'fdc': result.data})
+                        response.status_code = 201
+                        return response
 
 #Register a new user or get a list of all users
 @app.route('/users/', methods=['POST', 'GET'])
