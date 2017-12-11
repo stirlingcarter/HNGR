@@ -69,6 +69,61 @@ class PickupTestCase(unittest.TestCase):
         self.assertTrue(creation_data['message'] == 'Successfully created pickup.')
         self.assertTrue(creation_response.content_type == 'application/json')
         self.assertEqual(creation_response.status_code, 201)
+    
+    def test_pickup_accept:
+        #User we're using
+        user = User(username='charlie', email='test@test.com', password='password', first_name='charlie', last_name='fei', role='donor', location='nashville')
+        volunteer = User(username='volunteer', email='vol@test.com', password='password', first_name='vol', last_name='fei', role='volunteer', location='nashville')
+        schema = UserSchema()
+
+        #Register User
+        register_response = self.client.post('/users/',
+            data = schema.dumps(user).data,
+            content_type = 'application/json'
+        )
+
+        registration_data = json.loads(register_response.data.decode())
+        self.assertTrue(registration_data['status'] == 'success')
+        self.assertTrue(
+            registration_data['message'] == 'Successfully registered.'
+        )
+
+        self.assertTrue(registration_data['auth_token'])
+        self.assertTrue(register_response.content_type == 'application/json')
+        self.assertEqual(register_response.status_code, 201)
+
+        #Login User
+        login_response = self.client.post('/users/login',
+            data = schema.dumps(user).data,
+            content_type = 'application/json'
+        )
+
+        login_data = json.loads(login_response.data.decode())
+        self.assertTrue(login_data['status'] == 'success')
+        self.assertTrue(login_data['message'] == 'Successfully logged in.')
+        self.assertTrue(login_data['auth_token'])
+        self.assertTrue(login_response.content_type == 'application/json')
+        self.assertEqual(login_response.status_code, 200)
+
+        pickup_schema = PickupSchema()
+        pickup = Pickup(description="My Pickup", donor=user)
+
+        creation_response = self.client.post('/users/charlie/pickups/',
+            data = pickup_schema.dumps(pickup).data,
+            headers=dict(
+                Authorization='Bearer ' + login_data['auth_token']
+            ),
+            content_type = 'application/json'
+        )
+
+        creation_data = json.loads(creation_response.data.decode())
+        self.assertTrue(creation_data['status'] == 'success')
+        self.assertTrue(creation_data['message'] == 'Successfully created pickup.')
+        self.assertTrue(creation_response.content_type == 'application/json')
+        self.assertEqual(creation_response.status_code, 201)
+
+        # accept_response = self.client.put('/pickups/1',
+        #     )
 
     def tearDown(self):
         """teardown all initialized variables."""

@@ -416,6 +416,69 @@ def pickups(username, **kwargs):
         }
         return jsonify(response_object), 401
 
+#Accept a pickup as a volunteer
+@app.route('/pickups/<int:id>', methods=['PUT'])
+def accept_pickup(id, **kwargs):
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+        auth_token = auth_header.split(" ")[1]
+    else:
+        auth_token = ''
+    if auth_token:
+        response = User.decode_auth_token(auth_token)
+        if not isinstance(response, str):
+            user = User.query.filter_by(id=response).first()
+
+            #Check that user is volunteer
+            if user.role == 'volunteer':
+                json_data = request.get_json()
+                if not json_data:
+                    return jsonify({'message': 'No input data provided'}), 400
+                
+                #Check for errors when loading from FDC Schema
+                data, errors = json.loads(json_data)
+                if errors:
+                    return jsonify(errors), 422
+
+                destination = data['destination']
+
+                if destination:
+                    try:
+                        fdc = FoodDistributionCenter.query.get(destination)
+                        pickup = Pickup.query.get(id)
+
+                        pickup.status = 'incoming'
+                        fdc.deliveries.append(pickup)
+                        pickup.save()
+                        fdc.save()
+                        db.session.commit()
+
+                        response_object = {
+                            'status': 'success',
+                            'message': 'Successfully accepted pickup job.'
+                        }
+
+                        return jsonify(response_object), 200
+                    except Exception as e:
+                        response_object = {
+                            'status': 'fail',
+                            'message': str(e)
+                        }
+                    return jsonify(response_object), 500
+        else:
+            response_object = {
+                'status': 'fail', 
+                'message': response
+            }
+            return jsonify(response_object), 401    
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Provide a valid auth token.'
+        }
+        return jsonify(response_object), 401
+
+
 #Get all pickups
 @app.route('/pickups/', methods=['GET'])
 def get_pickups():

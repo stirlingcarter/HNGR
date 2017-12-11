@@ -114,6 +114,7 @@ class Pickup(db.Model):
     registered_on = db.Column(db.DateTime, nullable=False)
     status = db.Column(db.String(255), nullable=False)
     donor_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    destination_id = db.Column(db.Integer, db.ForeignKey('fooddistributioncenters.id'), nullable=True)
     location = db.Column(db.String(255), nullable=False)
 
     def __init__(self, description, donor):
@@ -149,6 +150,7 @@ class FoodDistributionCenter(db.Model):
         db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
     admin_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    deliveries = db.relationship('Pickup', backref='destination', lazy=True)
 
     def __init__(self, name, address):
         """initialize with name."""
