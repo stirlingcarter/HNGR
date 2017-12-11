@@ -166,7 +166,7 @@ def fdc_manipulation(id, **kwargs):
                         result = fdc_schema.dump(FoodDistributionCenter.query.get(fdc.id))
                         response = jsonify({'message': 'Edited FDC',
                                             'fdc': result.data})
-                        response.status_code = 201
+                        response.status_code = 200
                         return response
 
 #Register a new user or get a list of all users
@@ -294,16 +294,17 @@ def logout():
 #Get or edit a specific user
 @app.route('/users/<string:username>', methods=['GET', 'PUT'])
 def user(username, **kwargs):
-    if request.method == "GET":
-        auth_header = request.headers.get('Authorization')
-        if auth_header:
-            auth_token = auth_header.split(" ")[1]
-        else:
-            auth_token = ''
-        if auth_token:
-            response = User.decode_auth_token(auth_token)
-            if not isinstance(response, str):
-                user = User.query.filter_by(id=response).first()
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+        auth_token = auth_header.split(" ")[1]
+    else:
+        auth_token = ''
+    if auth_token:
+        response = User.decode_auth_token(auth_token)
+        if not isinstance(response, str):
+            user = User.query.filter_by(id=response).first()
+
+            if request.method == "GET":
                 response_object = {
                     'status': 'success',
                     'data': {
@@ -315,18 +316,43 @@ def user(username, **kwargs):
                     }
                 }
                 return jsonify(response_object), 200
-            else:
-                response_object = {
-                    'status': 'fail', 
-                    'message': response
-                }
-                return jsonify(response_object), 401
+
+            elif request.method == "PUT":
+                json_data = request.get_json()
+                if not json_data:
+                    return jsonify({'message': 'No input data provided'}), 400
+                
+                #Check for errors when loading from user schema
+                data, errors = user_schema.load(json_data)
+                if errors:
+                    return jsonify(errors), 422
+
+                first_name, last_name = data['first_name'], data['last_name']
+
+                if first_name:
+                    user.first_name = first_name
+                if last_name:
+                    user.last_name = last_name
+
+                user.save()
+                result = user_schema.dump(User.query.get(user.id))
+                response = jsonify({'message': 'Edited User',
+                                    'user': result.data})
+                response.status_code = 200
+                return response
+                
         else:
             response_object = {
-                'status': 'fail',
-                'message': 'Provide a valid auth token.'
+                'status': 'fail', 
+                'message': response
             }
             return jsonify(response_object), 401
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'Provide a valid auth token.'
+        }
+        return jsonify(response_object), 401
 
 #Create a new pickup
 @app.route('/users/<string:username>/pickups/', methods=['POST'])
