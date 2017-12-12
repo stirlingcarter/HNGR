@@ -12,6 +12,7 @@ import VolInfo          from '../components/vol_info';
 import PickupMap        from '../components/pickup_map';
 import Profile          from '../components/profile';
 import FDCOptions       from '../components/fdc_options';
+import FDCInfo          from '../components/fdc_info';
 
 export const Tabs = TabNavigator({
     Pickup: {
@@ -87,6 +88,12 @@ export const Main = StackNavigator({
         screen: FDCOptions,
         navigationOptions: {
             title: 'FDC Options',
+        }
+    },
+    FDCInfo: {
+        screen: FDCInfo,
+        navigationOptions: {
+            title: 'Update Info',
         }
     }
 });

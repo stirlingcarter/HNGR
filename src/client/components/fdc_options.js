@@ -20,7 +20,7 @@ export default class fdcOptions extends React.Component {
     }
 
     setOpts() {
-
+        this.props.navigation.navigate('FDCInfo');
     }
 
     render() {
