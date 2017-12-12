@@ -14,6 +14,7 @@ import Profile          from '../components/profile';
 import FDCOptions       from '../components/fdc_options';
 import FDCInfo          from '../components/fdc_info';
 import DelInfo          from '../components/delivery_set';
+import DelView          from '../components/delivery_view';
 
 export const Tabs = TabNavigator({
     Pickup: {
@@ -101,6 +102,12 @@ export const Main = StackNavigator({
         screen: DelInfo,
         navigationOptions: {
             title: 'Delivery Instructions'
+        }
+    },
+    DView: {
+        screen: DelView,
+        navigationOptions: {
+            title: 'Incoming Deliveries'
         }
     }
 });

@@ -12,7 +12,7 @@ export default class fdcOptions extends React.Component {
     }
 
     onView() {
-
+        this.props.navigation.navigate('DView');
     }
 
     setInstructs() {
