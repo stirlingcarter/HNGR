@@ -16,7 +16,7 @@ export default class fdcOptions extends React.Component {
     }
 
     setInstructs() {
-
+        this.props.navigation.navigate('DInfo');
     }
 
     setOpts() {

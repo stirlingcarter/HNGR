@@ -13,6 +13,7 @@ import PickupMap        from '../components/pickup_map';
 import Profile          from '../components/profile';
 import FDCOptions       from '../components/fdc_options';
 import FDCInfo          from '../components/fdc_info';
+import DelInfo          from '../components/delivery_set';
 
 export const Tabs = TabNavigator({
     Pickup: {
@@ -94,6 +95,12 @@ export const Main = StackNavigator({
         screen: FDCInfo,
         navigationOptions: {
             title: 'Update Info',
+        }
+    },
+    DInfo: {
+        screen: DelInfo,
+        navigationOptions: {
+            title: 'Delivery Instructions'
         }
     }
 });
