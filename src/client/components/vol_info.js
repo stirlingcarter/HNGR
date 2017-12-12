@@ -11,7 +11,7 @@ export default class VolInfo extends React.Component {
 
     onSubmit() {
         let addr = 'http://18.216.237.239:5000/users/'
-        let url = addr.concat(this.state.username)
+        let url = addr.concat(this.state.name)
         fetch(addr, {
             method: 'POST',
             headers: {
@@ -32,16 +32,16 @@ export default class VolInfo extends React.Component {
                 this.setState({auth_token: data.auth_token});
                 // Redirect
                 //alert(res.data.message);
-                this.props.navigation.navigate('Tabs', {type: type, username: this.state.username});
                 this.setState({isLoading: true});
-                this.setToken(data.auth_token);
+                
                 //   this.props.navigation.dispatch(resetAction);
+                alert('success!');
               }
             } else {
             alert('no response object');
           }})
           .catch((e) => {
-            alert('There was an error logging in.');
+            alert(e);
           });
     }
 
