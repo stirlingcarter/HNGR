@@ -312,7 +312,8 @@ def user(username, **kwargs):
                         'email':            user.email,
                         'first_name':       user.first_name,
                         'last_name':        user.last_name,
-                        'role':             user.role
+                        'role':             user.role,
+                        'fdcID':              user.fdc.id
                     }
                 }
                 return jsonify(response_object), 200

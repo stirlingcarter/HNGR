@@ -7,10 +7,82 @@ export default class FdcInfo extends React.Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
+        this.state = {
+            auth_token: '',
+            username: '',
+            fdcID: 0,
+            address: '',
+            opening_time: '',
+            closing_time: ''
+        };
+    }
+
+    componentWillMount() {
+        // get FDC id
+        fetch(`http://18.216.237.239:5000/users/${this.state.username}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + this.state.auth_token,
+            },
+            body: JSON.stringify({
+                description: this.state.description,
+                name: this.state.name,
+            })
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.status == 'fail') {
+                    alert(res.message);
+                    alert(this.state.auth_token);
+                } else {
+                    fdcID = res.data.fdcID;
+                }
+            })
+            .catch((e) => {
+                alert('There was an error fetching FDC info.');
+            });
+    }
+
+    async getToken() {
+        let token = '';
+        await AsyncStorage.getItem('webtoken', (err, item) => {
+            this.setState({auth_token: item});
+
+            fetch(`http://18.216.237.239:5000/fdcs/${this.state.fdcID}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    Authorization: 'Bearer ' + this.state.auth_token,
+                },
+                body: JSON.stringify({
+                    description: this.state.description,
+                    address: this.state.address,
+                    opening_time: this.state.opening_time,
+                    closing_time: this.state.closing_time
+                })
+            })
+                .then((response) => response.json())
+                .then((res) => {
+                    if (res.status == 'fail') {
+                        alert(res.message);
+                        alert(this.state.auth_token);
+                    } else {
+                        alert(`Success! Delivery instructions set!`);
+                    }
+                })
+                .catch((e) => {
+                    alert('There was an error setting delivery instructions.');
+                });
+        });
     }
 
     onSubmit() {
-
+        const { params } = this.props.navigation.state;
+        this.setState({username: params.username});
+        this.getToken();
     }
 
     render() {

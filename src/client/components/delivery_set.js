@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Alert} from 'react-native';
+import { StyleSheet, View, Text, Alert, AsyncStorage} from 'react-native';
 import { Button, FormLabel, FormInput} from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -7,10 +7,80 @@ export default class DeliverySet extends React.Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
+        this.state = {
+            auth_token: '',
+            username: '',
+            fdcID: 0,
+            address: '',
+            opening_time: '',
+            closing_time: ''
+        };
+
+        // get FDC id
+        fetch(`http://18.216.237.239:5000/users/${this.state.username}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + this.state.auth_token,
+            },
+            body: JSON.stringify({
+                description: this.state.description,
+                name: this.state.name,
+            })
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.status == 'fail') {
+                    alert(res.message);
+                    alert(this.state.auth_token);
+                } else {
+                    fdcID = res.data.fdcID;
+                }
+            })
+            .catch((e) => {
+                alert('There was an error fetching FDC info.');
+            });
+    }
+
+    async getToken() {
+        let token = '';
+        await AsyncStorage.getItem('webtoken', (err, item) => {
+            this.setState({auth_token: item});
+
+            fetch(`http://18.216.237.239:5000/fdcs/${this.state.fdcID}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    Authorization: 'Bearer ' + this.state.auth_token,
+                },
+                body: JSON.stringify({
+                    description: this.state.description,
+                    address: this.state.address,
+                    opening_time: this.state.opening_time,
+                    closing_time: this.state.closing_time
+                })
+            })
+                .then((response) => response.json())
+                .then((res) => {
+                    if (res.status == 'fail') {
+                        alert(res.message);
+                        alert(this.state.auth_token);
+                    } else {
+                        alert(`Success! Delivery instructions set!`);
+                    }
+                })
+                .catch((e) => {
+                    alert('There was an error setting delivery instructions.');
+                });
+        });
     }
 
     onSubmit() {
-
+        const { params } = this.props.navigation.state;
+        this.setState({username: params.username});
+        this.getToken();
     }
 
     render() {
@@ -26,21 +96,20 @@ export default class DeliverySet extends React.Component {
                 <View style={styles.container}>
                     <Text style={styles.plainText}>Set Delivery Instructions</Text>
 
-                    <FormLabel labelStyle={styles.formLabel}>Drop Off Availability</FormLabel>
+                    <FormLabel labelStyle={styles.formLabel}>Address</FormLabel>
                     <FormInput containerStyle={styles.formContainer}
                                inputStyle={styles.formInput}
-                               onChangeText={(availability) => this.setState({availability})}/>
+                               onChangeText={(address) => this.setState({address})}/>
 
-                    <FormLabel labelStyle={styles.formLabel}>Contact Number</FormLabel>
+                    <FormLabel labelStyle={styles.formLabel}>Opening Time</FormLabel>
                     <FormInput containerStyle={styles.formContainer}
                                inputStyle={styles.formInput}
-                               onChangeText={(contact) => this.setState({contact})}/>
+                               onChangeText={(opening_time) => this.setState({opening_time})}/>
 
-                    <FormLabel labelStyle={styles.formLabel}>Additional Instructions</FormLabel>
-                    <FormInput multiline
-                               containerStyle={styles.formContainer}
+                    <FormLabel labelStyle={styles.formLabel}>Closing Time</FormLabel>
+                    <FormInput containerStyle={styles.formContainer}
                                inputStyle={styles.formInput}
-                               onChangeText={(instructions) => this.setState({instructions})}/>
+                               onChangeText={(closing_time) => this.setState({closing_time})}/>
 
                     <Button
                         style={styles.button}
