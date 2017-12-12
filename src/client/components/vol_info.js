@@ -10,7 +10,39 @@ export default class VolInfo extends React.Component {
     }
 
     onSubmit() {
-
+        let addr = 'http://18.216.237.239:5000/users/'
+        let url = addr.concat(this.state.username)
+        fetch(addr, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json'
+            },
+            body: JSON.stringify({
+              username: this.state.username,
+              password: this.state.password
+            })
+          })
+          .then((res) => res.json())
+          .then((data) => {
+            if(data){
+              if (data.status == 'fail') {
+                alert(data.message);
+              } else {
+                this.setState({auth_token: data.auth_token});
+                // Redirect
+                //alert(res.data.message);
+                this.props.navigation.navigate('Tabs', {type: type, username: this.state.username});
+                this.setState({isLoading: true});
+                this.setToken(data.auth_token);
+                //   this.props.navigation.dispatch(resetAction);
+              }
+            } else {
+            alert('no response object');
+          }})
+          .catch((e) => {
+            alert('There was an error logging in.');
+          });
     }
 
     render() {
