@@ -11,8 +11,8 @@ export default class VolInfo extends React.Component {
 
     onSubmit() {
         let addr = 'http://18.216.237.239:5000/users/'
-        let url = addr.concat(this.state.name)
-        fetch(addr, {
+        let url = addr.concat(this.state.username)
+        fetch(url, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export default class VolInfo extends React.Component {
                 // Redirect
                 //alert(res.data.message);
                 this.setState({isLoading: true});
-                
+
                 //   this.props.navigation.dispatch(resetAction);
                 alert('success!');
               }
