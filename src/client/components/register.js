@@ -34,7 +34,7 @@ export default class RegisterScreen extends React.Component {
       .then((response) => response.json())
       .then((res) => {
         if (res.status == 'fail') {
-          alert("Failed!");
+          alert(res.message);
         } else {
           this.setState({auth_token: res.auth_token});
           alert(`Success! You may now log in.`);
