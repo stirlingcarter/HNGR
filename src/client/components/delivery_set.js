@@ -36,6 +36,11 @@ export default class DeliverySet extends React.Component {
                                inputStyle={styles.formInput}
                                onChangeText={(contact) => this.setState({contact})}/>
 
+                    <FormLabel labelStyle={styles.formLabel}>Additional Instructions</FormLabel>
+                    <FormInput multiline
+                               containerStyle={styles.formContainer}
+                               inputStyle={styles.formInput}
+                               onChangeText={(instructions) => this.setState({instructions})}/>
 
                     <Button
                         style={styles.button}
